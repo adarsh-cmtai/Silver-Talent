@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 33% 99%; /* F8F9FA - Light Neutral Gray */
+    --foreground: 210 10% 23%; /* 343A40 - Dark Gray */
+
+    --card: 0 0% 100%; /* FFFFFF - White */
+    --card-foreground: 210 10% 23%; /* 343A40 - Dark Gray */
+
+    --popover: 0 0% 100%; /* FFFFFF - White */
+    --popover-foreground: 210 10% 23%; /* 343A40 - Dark Gray */
+
+    --primary: 211 82% 27%; /* 154370 - Deep Corporate Blue */
+    --primary-foreground: 0 0% 100%; /* FFFFFF - White */
+
+    --secondary: 211 100% 50%; /* 007BFF - Bright Action Blue */
+    --secondary-foreground: 0 0% 100%; /* FFFFFF - White */
+
+    --muted: 210 16% 93%; /* DEE2E6 - Medium Gray */
+    --muted-foreground: 215 14% 34%; /* 495057 - Medium Gray for text */
+
+    --accent: 43 100% 50%; /* FFB800 - Vibrant Gold */
+    --accent-foreground: 210 10% 23%; /* 343A40 - Dark Gray */
+
+    --destructive: 0 84.2% 60.2%; /* Keep the destructive color */
+    --destructive-foreground: 210 40% 98%; /* Keep the destructive foreground */
+
+    --border: 210 14% 89%; /* DEE2E6 - Medium Gray for borders */
+    --input: 210 14% 89%; /* DEE2E6 - Medium Gray for borders */
+    --ring: 211 100% 50%; /* 007BFF - Bright Action Blue */
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 211 82% 27%; /* 154370 - Deep Corporate Blue */
+    --foreground: 0 0% 100%; /* FFFFFF - White */
+
+    --card: 211 82% 27%; /* 154370 - Deep Corporate Blue */
+    --card-foreground: 0 0% 100%; /* FFFFFF - White */
+
+    --popover: 211 82% 27%; /* 154370 - Deep Corporate Blue */
+    --popover-foreground: 0 0% 100%; /* FFFFFF - White */
+
+    --primary: 211 100% 50%; /* 007BFF - Bright Action Blue */
+    --primary-foreground: 0 0% 100%; /* FFFFFF - White */
+
+    --secondary: 43 100% 50%; /* FFB800 - Vibrant Gold */
+    --secondary-foreground: 210 10% 23%; /* 343A40 - Dark Gray */
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 43 100% 50%; /* FFB800 - Vibrant Gold */
+    --accent-foreground: 210 10% 23%; /* 343A40 - Dark Gray */
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%; /* FFFFFF - White */
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-bg-light text-text-dark font-open-sans;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-montserrat font-bold text-deep-blue;
+  }
+  
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Animation classes */
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .animate-on-scroll.animated {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .infinite-scroll-container {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .infinite-scroll-track {
+    display: flex;
+    animation: slide-left 30s linear infinite;
+    width: max-content;
+  }
+
+  .testimonial-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease-out;
+  }
+  
+  .testimonial-card.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Card styles */
+  .modern-card {
+    @apply bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300;
+  }
+  
+  /* Gradient backgrounds */
+  .corporate-gradient {
+    @apply bg-gradient-to-r from-deep-blue to-action-blue;
+  }
+  
+  /* Button styles */
+  .primary-button {
+    @apply bg-action-blue hover:bg-action-blue/90 text-white transition-colors duration-300;
+  }
+  
+  .accent-button {
+    @apply bg-vibrant-gold hover:bg-vibrant-gold/90 text-deep-blue font-medium transition-colors duration-300;
+  }
+}

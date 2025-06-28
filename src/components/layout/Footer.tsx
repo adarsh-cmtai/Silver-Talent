@@ -1,0 +1,182 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/sonner";
+import { motion } from "framer-motion";
+import { Facebook, Linkedin, Twitter, Mail, Phone, MapPin, Send } from "lucide-react";
+
+const Footer = () => {
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast.success("Thank you for subscribing to our newsletter!");
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
+  return (
+    <footer className="text-white pt-16 pb-6"
+      style={{ backgroundColor: "#042c60" }}
+    >
+      <div className="container mx-auto px-4">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12"
+        >
+          <motion.div variants={itemVariants}>
+            <h3 className="text-2xl font-bold mb-4 text-white">
+              Silver Talent<span className="text-sky-600">Services</span>
+            </h3>
+            <p className="mb-6 text-gray-200 leading-relaxed">
+              Empowering businesses with exceptional recruitment solutions designed to drive success.
+            </p>
+            <div className="flex space-x-4">
+              <motion.a
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                href="#"
+                className="text-gray-200 hover:text-sky-600 transition-colors bg-gray-800 p-2 rounded-full hover:bg-gray-700"
+              >
+                <span className="sr-only">LinkedIn</span>
+                <Linkedin className="h-5 w-5" />
+              </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                href="#"
+                className="text-gray-200 hover:text-sky-600 transition-colors bg-gray-800 p-2 rounded-full hover:bg-gray-700"
+              >
+                <span className="sr-only">Twitter</span>
+                <Twitter className="h-5 w-5" />
+              </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                href="#"
+                className="text-gray-200 hover:text-sky-600 transition-colors bg-gray-800 p-2 rounded-full hover:bg-gray-700"
+              >
+                <span className="sr-only">Facebook</span>
+                <Facebook className="h-5 w-5" />
+              </motion.a>
+            </div>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <h3 className="text-xl font-bold mb-4 text-white flex items-center gap-2">
+              <span className="h-8 w-1 bg-sky-600 rounded-full"></span>
+              Quick Links
+            </h3>
+            <ul className="space-y-3">
+              {['Home', 'About Us', 'Services', 'Blog', 'Vacancies', 'Contact'].map((link, index) => (
+                <motion.li
+                  key={link}
+                  whileHover={{ x: 5 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <a
+                    href={`/${link.toLowerCase().replace(' ', '-')}`}
+                    className="text-gray-200 hover:text-sky-600 transition-colors flex items-center gap-2 group"
+                  >
+                    <span className="h-1 w-1 bg-sky-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                    {link}
+                  </a>
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <h3 className="text-xl font-bold mb-4 text-white flex items-center gap-2">
+              <span className="h-8 w-1 bg-sky-600 rounded-full"></span>
+              Contact Info
+            </h3>
+            <ul className="space-y-4">
+              <motion.li
+                whileHover={{ x: 5 }}
+                className="flex items-start gap-3 text-gray-200"
+              >
+                <MapPin className="h-5 w-5 text-sky-600 mt-1" />
+                <span>123 Business Avenue, Corporate Park, Mumbai, 400001</span>
+              </motion.li>
+              <motion.li
+                whileHover={{ x: 5 }}
+                className="flex items-start gap-3 text-gray-200"
+              >
+                <Phone className="h-5 w-5 text-sky-600 mt-1" />
+                <span>+91 9250051516</span>
+              </motion.li>
+              <motion.li
+                whileHover={{ x: 5 }}
+                className="flex items-start gap-3 text-gray-200"
+              >
+                <Mail className="h-5 w-5 text-sky-600 mt-1" />
+                <span>hr@silvertalent.in</span>
+              </motion.li>
+            </ul>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <h3 className="text-xl font-bold mb-4 text-white flex items-center gap-2">
+              <span className="h-8 w-1 bg-sky-600 rounded-full"></span>
+              Newsletter
+            </h3>
+            <p className="mb-6 text-gray-200 leading-relaxed">
+              Subscribe to get the latest updates on recruitment trends.
+            </p>
+            <form onSubmit={handleSubscribe} className="flex flex-col space-y-3">
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Input
+                  type="email"
+                  placeholder="Your email address"
+                  required
+                  className="bg-gray-800/50 border-gray-700 text-white placeholder:text-gray-400 focus:border-sky-600 focus:ring-sky-600/20 transition-all duration-300"
+                />
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button
+                  type="submit"
+                  className="bg-sky-600 hover:bg-sky-700 text-white font-semibold w-full flex items-center justify-center gap-2 transition-all duration-300"
+                >
+                  <Send className="h-4 w-4" />
+                  Subscribe
+                </Button>
+              </motion.div>
+            </form>
+          </motion.div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="border-t border-gray-700 pt-6 mt-6 text-center text-gray-300 text-sm"
+        >
+          <p>© {new Date().getFullYear()} Silver Talent Services. All rights reserved.</p>
+        </motion.div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
