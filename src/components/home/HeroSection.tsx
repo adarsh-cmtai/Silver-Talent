@@ -15,7 +15,7 @@ const HeroSection = () => {
               Talent Acquisition, Redefined
             </div>
 
-            <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tighter mb-6">
+            <h1 className="text-4xl md:text-4xl font-extrabold text-slate-900 tracking-tighter mb-6">
               We are Specialists at acquiring the best talent for your business
             </h1>
 
