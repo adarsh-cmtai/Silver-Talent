@@ -31,7 +31,7 @@ const HeroSection = () => {
               className="inline-flex items-center gap-2.5 h-12 px-8 bg-[#042c60] hover:bg-indigo-700 text-white font-bold text-base rounded-lg shadow-xl shadow-indigo-500/20 hover:shadow-indigo-500/30 transition-all duration-300 transform hover:-translate-y-0.5"
             >
               <Link to="/contact">
-                Learn More
+                Contact Us
                 <MoveRight className="h-5 w-5" />
               </Link>
             </Button>
