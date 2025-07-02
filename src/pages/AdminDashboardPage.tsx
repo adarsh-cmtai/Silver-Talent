@@ -1,7 +1,4 @@
-// client/src/pages/AdminDashboardPage.tsx
-// <<<< ENSURE THIS FILE IS NAMED AdminDashboardPage.tsx >>>>
-
-import React, { useState, useEffect, FormEvent, ChangeEvent, useMemo } from 'react';
+import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,8 +11,8 @@ import { useNavigate } from "react-router-dom";
 import {
   LogOut, Settings, Phone, Mail, MapPinIcon as MapPin, Briefcase, PlusCircle, Loader2,
   AlertTriangle, UploadCloud, ImagePlus, Trash2, Edit3, Layers, Menu, X, ListChecks, Edit,
-  Users, FileText, Send, ExternalLink, Eye, MessageSquare, Inbox, CheckCircle, Archive, Trash, SendHorizonal, Pencil, Edit2
-} from 'lucide-react'; // Added new icons from previous step
+  Users, FileText, Send, ExternalLink, Eye, MessageSquare, Inbox, CheckCircle, Archive, Trash, SendHorizonal, Pencil, Edit2, BellRing
+} from 'lucide-react';
 import { toast, Toaster } from 'sonner';
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
@@ -29,7 +26,6 @@ import {
 } from "@/components/ui/dialog";
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from '@/components/ui/badge';
-import Navbar from '@/components/layout/Navbar';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://silver-talent-backend-2.onrender.com/api";
 
@@ -58,7 +54,6 @@ interface Application {
   updatedAt: string;
 }
 
-// New Interface for Contact Submissions
 interface ContactSubmission {
   _id: string;
   yourName: string;
@@ -73,11 +68,15 @@ interface ContactSubmission {
   repliedAt?: string;
 }
 
+interface Subscription {
+  _id: string;
+  email: string;
+  createdAt: string;
+}
 
-// Update AdminSection type
 type AdminSection = 'contact' | 'vacancy' | 'blog-category' | 'blog-post' |
   'manage-vacancies' | 'manage-blog-categories' | 'manage-blog-posts' |
-  'manage-applications' | 'manage-contact-submissions'; // Added new section
+  'manage-applications' | 'manage-contact-submissions' | 'manage-subscriptions';
 
 
 const AdminDashboardPage: React.FC = () => {
@@ -85,12 +84,10 @@ const AdminDashboardPage: React.FC = () => {
   const [activeSection, setActiveSection] = useState<AdminSection>('contact');
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
 
-  // Contact Info State
   const [contactForm, setContactForm] = useState<ContactInfo>({ address: "", phone: "", email: "", locationMapUrl: "" });
   const [isContactLoading, setIsContactLoading] = useState<boolean>(true);
   const [isContactSubmitting, setIsContactSubmitting] = useState<boolean>(false);
 
-  // Vacancy State
   const initialVacancyState: NewVacancyData = { title: "", company: "", location: "", type: "", salary: "", category: "", description: "", skills: "" };
   const [vacancyForm, setVacancyForm] = useState<NewVacancyData>(initialVacancyState);
   const [editingVacancy, setEditingVacancy] = useState<FetchedVacancyData | null>(null);
@@ -104,7 +101,6 @@ const AdminDashboardPage: React.FC = () => {
   const [isLoadingAllVacancies, setIsLoadingAllVacancies] = useState<boolean>(false);
   const [showVacancyForm, setShowVacancyForm] = useState<boolean>(false);
 
-  // Blog Category State
   const initialBlogCategoryState: NewBlogCategoryData = { name: "", description: "" };
   const [blogCategoryForm, setBlogCategoryForm] = useState<NewBlogCategoryData>(initialBlogCategoryState);
   const [editingBlogCategory, setEditingBlogCategory] = useState<BlogCategory | null>(null);
@@ -113,7 +109,6 @@ const AdminDashboardPage: React.FC = () => {
   const [isLoadingAllBlogCategories, setIsLoadingAllBlogCategories] = useState<boolean>(false);
   const [showBlogCategoryForm, setShowBlogCategoryForm] = useState<boolean>(false);
 
-  // Blog Post State
   const initialBlogPostState: NewBlogPostData = { title: "", excerpt: "", content: "", author: "", readTime: "5 min read", categoryId: "", tags: "", isPublished: false };
   const [blogPostForm, setBlogPostForm] = useState<NewBlogPostData>(initialBlogPostState);
   const [editingBlogPost, setEditingBlogPost] = useState<FetchedBlogPostData | null>(null);
@@ -126,66 +121,54 @@ const AdminDashboardPage: React.FC = () => {
   const [isLoadingAllBlogPosts, setIsLoadingAllBlogPosts] = useState<boolean>(false);
   const [showBlogPostForm, setShowBlogPostForm] = useState<boolean>(false);
 
-  // Application State
   const [allApplications, setAllApplications] = useState<Application[]>([]);
   const [isLoadingAllApplications, setIsLoadingAllApplications] = useState<boolean>(false);
   const [selectedApplicationForView, setSelectedApplicationForView] = useState<Application | null>(null);
-  const [isAppResponseModalOpen, setIsAppResponseModalOpen] = useState<boolean>(false); // Renamed for clarity
-  const [appAdminResponseForm, setAppAdminResponseForm] = useState({ subject: '', body: '' }); // Renamed for clarity
-  const [isSendingAppResponse, setIsSendingAppResponse] = useState<boolean>(false); // Renamed for clarity
+  const [isAppResponseModalOpen, setIsAppResponseModalOpen] = useState<boolean>(false);
+  const [appAdminResponseForm, setAppAdminResponseForm] = useState({ subject: '', body: '' });
+  const [isSendingAppResponse, setIsSendingAppResponse] = useState<boolean>(false);
   const [applicationStatusFilter, setApplicationStatusFilter] = useState<string>("All");
   const applicationStatuses: Application['status'][] = ['Pending', 'Viewed', 'In Progress', 'Contacted', 'Hired', 'Rejected'];
 
-  // State for Contact Submissions
   const [allContactSubmissions, setAllContactSubmissions] = useState<ContactSubmission[]>([]);
   const [isLoadingContactSubmissions, setIsLoadingContactSubmissions] = useState<boolean>(false);
-  const [selectedContactSubmissionForView, setSelectedContactSubmissionForView] = useState<ContactSubmission | null>(null); // Renamed for clarity
-  const [isContactMsgResponseModalOpen, setIsContactMsgResponseModalOpen] = useState<boolean>(false); // Renamed for clarity
-  const [contactMsgAdminResponseForm, setContactMsgAdminResponseForm] = useState({ subject: '', body: '' }); // Renamed for clarity
-  const [isSendingContactMsgResponse, setIsSendingContactMsgResponse] = useState<boolean>(false); // Renamed for clarity
+  const [selectedContactSubmissionForView, setSelectedContactSubmissionForView] = useState<ContactSubmission | null>(null);
+  const [isContactMsgResponseModalOpen, setIsContactMsgResponseModalOpen] = useState<boolean>(false);
+  const [contactMsgAdminResponseForm, setContactMsgAdminResponseForm] = useState({ subject: '', body: '' });
+  const [isSendingContactMsgResponse, setIsSendingContactMsgResponse] = useState<boolean>(false);
   const [contactStatusFilter, setContactStatusFilter] = useState<string>("All");
   const contactSubmissionStatuses: ContactSubmission['status'][] = ['New', 'Viewed', 'Replied', 'Archived'];
   const [editingSubmissionNotes, setEditingSubmissionNotes] = useState<{ id: string; notes: string } | null>(null);
   const [isUpdatingNotes, setIsUpdatingNotes] = useState<boolean>(false);
 
+  const [allSubscriptions, setAllSubscriptions] = useState<Subscription[]>([]);
+  const [isLoadingAllSubscriptions, setIsLoadingAllSubscriptions] = useState<boolean>(false);
 
-  // General State
+
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deleteAction, setDeleteAction] = useState<{ onConfirm: () => void; itemType?: string } | null>(null);
 
-
-  // --- Fetch Functions ---
   const fetchContactInfo = async () => {
     setIsContactLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/contact-info`); // Assuming this endpoint exists for GET
+      const response = await fetch(`${API_BASE_URL}/contact-info`);
       if (!response.ok) throw new Error(`Contact Info: ${response.statusText || response.status}`);
       const data = await response.json();
       if (data.success && data.contactInfo) {
         setContactForm(data.contactInfo);
       } else if (data.success === false && Array.isArray(data.contactInfo) && data.contactInfo.length > 0) {
-        // Handle case where backend might send an array (e.g. from older structure)
         setContactForm(data.contactInfo[0]);
-      } else if (Object.keys(data).length > 0 && !data.success) { // if data is not empty but not successful (e.g. first time setup)
-        // set default or empty if no data found, but don't error if it's just empty
+      } else if (Object.keys(data).length > 0 && !data.success) {
       } else if (!data.success && Object.keys(data).length === 0) {
         console.warn("No contact info found, initializing with empty form.");
       }
-      else { // if data is not what we expect
-        // console.warn("Unexpected contact info response structure:", data);
-        // No error toast here, allow form to be filled
-      }
     } catch (error: any) {
       console.error("Fetch Contact Info Error:", error);
-      // Don't toast error if it's just a 404 for not found, allow user to create it.
-      // if (error.message && !error.message.includes("404")) {
-      //    toast.error(error.message || "Could not load contact info.");
-      // }
     } finally {
       setIsContactLoading(false);
     }
   };
-  const fetchVacancyFiltersAndSetDefaults = async () => { /* ... (no changes needed) ... */
+  const fetchVacancyFiltersAndSetDefaults = async () => {
     setIsLoadingVacancyFilters(true);
     try {
       const response = await fetch(`${API_BASE_URL}/filter-options`);
@@ -209,7 +192,7 @@ const AdminDashboardPage: React.FC = () => {
       setIsLoadingVacancyFilters(false);
     }
   };
-  const fetchAllVacancies = async () => { /* ... (no changes needed) ... */
+  const fetchAllVacancies = async () => {
     setIsLoadingAllVacancies(true);
     try {
       const response = await fetch(`${API_BASE_URL}/jobs?admin_view=true&limit=200`);
@@ -227,7 +210,7 @@ const AdminDashboardPage: React.FC = () => {
       setIsLoadingAllVacancies(false);
     }
   };
-  const fetchAllBlogCategoriesForDropdownAndSetDefault = async () => { /* ... (no changes needed) ... */
+  const fetchAllBlogCategoriesForDropdownAndSetDefault = async () => {
     setIsLoadingBlogCategoriesForDropdown(true);
     try {
       const response = await fetch(`${API_BASE_URL}/blog/categories`);
@@ -244,7 +227,7 @@ const AdminDashboardPage: React.FC = () => {
       setIsLoadingBlogCategoriesForDropdown(false);
     }
   };
-  const fetchAllBlogCategoriesForList = async () => { /* ... (no changes needed) ... */
+  const fetchAllBlogCategoriesForList = async () => {
     setIsLoadingAllBlogCategories(true);
     try {
       const response = await fetch(`${API_BASE_URL}/blog/categories`);
@@ -259,7 +242,7 @@ const AdminDashboardPage: React.FC = () => {
       setIsLoadingAllBlogCategories(false);
     }
   };
-  const fetchAllBlogPosts = async () => { /* ... (no changes needed) ... */
+  const fetchAllBlogPosts = async () => {
     setIsLoadingAllBlogPosts(true);
     try {
       const response = await fetch(`${API_BASE_URL}/blog/posts?admin_view=true&limit=200`);
@@ -277,7 +260,7 @@ const AdminDashboardPage: React.FC = () => {
       setIsLoadingAllBlogPosts(false);
     }
   };
-  const fetchAllApplications = async (status = "All") => { /* ... (no changes needed) ... */
+  const fetchAllApplications = async (status = "All") => {
     setIsLoadingAllApplications(true);
     setAllApplications([]);
     try {
@@ -304,12 +287,11 @@ const AdminDashboardPage: React.FC = () => {
       setIsLoadingAllApplications(false);
     }
   };
-  // Fetch function for Contact Submissions
   const fetchAllContactSubmissions = async (status = "All") => {
     setIsLoadingContactSubmissions(true);
-    setAllContactSubmissions([]); // Clear previous submissions
+    setAllContactSubmissions([]);
     try {
-      const params = new URLSearchParams({ limit: '100' }); // Adjust limit as needed
+      const params = new URLSearchParams({ limit: '100' });
       if (status !== "All") {
         params.append('status_filter', status);
       }
@@ -323,65 +305,78 @@ const AdminDashboardPage: React.FC = () => {
       if (data?.success && Array.isArray(data.submissions)) {
         setAllContactSubmissions(data.submissions);
       } else {
-        setAllContactSubmissions([]); // Clear if not successful or data is not an array
-        if (data && !data.success) { // If backend explicitly states not successful
+        setAllContactSubmissions([]);
+        if (data && !data.success) {
           toast.error(data.message || "Failed to fetch submissions (server error).");
         }
       }
     } catch (error: any) {
       console.error("Fetch All Contact Submissions - Catch Block Error:", error);
       toast.error(error.message || "Could not load contact submissions list.");
-      setAllContactSubmissions([]); // Ensure it's empty on error
+      setAllContactSubmissions([]);
     } finally {
       setIsLoadingContactSubmissions(false);
     }
   };
 
+  const fetchAllSubscriptions = async () => {
+    setIsLoadingAllSubscriptions(true);
+    try {
+      const response = await fetch(`${API_BASE_URL}/subscriptions`);
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: "Could not fetch subscriptions." }));
+        throw new Error(errorData.message || "Failed to fetch subscriptions.");
+      }
+      const data = await response.json();
+      setAllSubscriptions(data.subscriptions || []);
+    } catch (error: any) {
+      toast.error(error.message);
+      setAllSubscriptions([]);
+    } finally {
+      setIsLoadingAllSubscriptions(false);
+    }
+  };
 
-  // --- useEffect Hooks ---
+
   useEffect(() => {
     document.title = "Admin Dashboard | Silver Talent";
     fetchContactInfo();
     fetchVacancyFiltersAndSetDefaults();
     fetchAllBlogCategoriesForDropdownAndSetDefault();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    // This effect runs when activeSection or specific filters change
     if (activeSection === 'manage-vacancies') fetchAllVacancies();
     if (activeSection === 'manage-blog-categories') fetchAllBlogCategoriesForList();
     if (activeSection === 'manage-blog-posts') fetchAllBlogPosts();
     if (activeSection === 'manage-applications') fetchAllApplications(applicationStatusFilter);
-    if (activeSection === 'manage-contact-submissions') fetchAllContactSubmissions(contactStatusFilter); // Fetch for new section
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeSection, applicationStatusFilter, contactStatusFilter]); // Added contactStatusFilter
+    if (activeSection === 'manage-contact-submissions') fetchAllContactSubmissions(contactStatusFilter);
+    if (activeSection === 'manage-subscriptions') fetchAllSubscriptions();
+  }, [activeSection, applicationStatusFilter, contactStatusFilter]);
 
 
-  // --- General Handlers ---
-  const handleLogout = () => { /* ... (no changes needed) ... */
+  const handleLogout = () => {
     toast.success("Admin logged out successfully!");
     navigate("/admin-login");
   };
-  const openDeleteConfirmDialog = (onConfirm: () => void, itemType: string = "item") => { // Added itemType
+  const openDeleteConfirmDialog = (onConfirm: () => void, itemType: string = "item") => {
     setDeleteAction({ onConfirm, itemType });
     setShowDeleteConfirm(true);
   };
 
-  // --- Form Reset Handlers ---
-  const resetAndCloseVacancyForm = () => { /* ... (no changes needed) ... */
+  const resetAndCloseVacancyForm = () => {
     setVacancyForm(initialVacancyState);
     setEditingVacancy(null);
     setLogoImageFile(null);
     setLogoPreview(null);
     setShowVacancyForm(false);
   };
-  const resetAndCloseBlogCategoryForm = () => { /* ... (no changes needed) ... */
+  const resetAndCloseBlogCategoryForm = () => {
     setBlogCategoryForm(initialBlogCategoryState);
     setEditingBlogCategory(null);
     setShowBlogCategoryForm(false);
   };
-  const resetAndCloseBlogPostForm = () => { /* ... (no changes needed) ... */
+  const resetAndCloseBlogPostForm = () => {
     setBlogPostForm(initialBlogPostState);
     setEditingBlogPost(null);
     setBlogImageFile(null);
@@ -389,28 +384,26 @@ const AdminDashboardPage: React.FC = () => {
     setShowBlogPostForm(false);
   };
 
-  // --- Contact Info Handlers ---
   const handleContactInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setContactForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  const handleContactInfoSubmit = async (e: FormEvent<HTMLFormElement>) => { /* ... (no changes needed, ensure PUT /contact-info exists) ... */
+  const handleContactInfoSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); setIsContactSubmitting(true);
     try {
       const response = await fetch(`${API_BASE_URL}/contact-info`, {
-        method: 'PUT', // Or POST if your backend creates it if not found
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(contactForm)
       });
       const result = await response.json();
       if (!response.ok || !result.success) throw new Error(result.message || "Update failed.");
       toast.success(result.message || "Contact info updated!");
-      if (result.data) setContactForm(result.data); // Assuming backend sends back the updated/created data
+      if (result.data) setContactForm(result.data);
     } catch (error: any) { toast.error(error.message); }
     finally { setIsContactSubmitting(false); }
   };
 
-  // --- Vacancy Handlers ---
   const handleVacancyFormChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setVacancyForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   const handleVacancySelectChange = (name: keyof NewVacancyData, value: string) => setVacancyForm(prev => ({ ...prev, [name]: value }));
-  const handleLogoImageChange = (e: ChangeEvent<HTMLInputElement>) => { /* ... (no changes needed) ... */
+  const handleLogoImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       if (file.size > 2 * 1024 * 1024) { toast.error("Logo max 2MB."); e.target.value = ""; return; }
@@ -418,12 +411,12 @@ const AdminDashboardPage: React.FC = () => {
       setLogoImageFile(file); setLogoPreview(URL.createObjectURL(file));
     } else { setLogoImageFile(null); setLogoPreview(null); }
   };
-  const removeVacancyLogoImage = (isEditing = false) => { /* ... (no changes needed) ... */
+  const removeVacancyLogoImage = (isEditing = false) => {
     setLogoImageFile(null); setLogoPreview(null);
     if (isEditing && editingVacancy) setVacancyForm(prev => ({ ...prev, ['removeLogo' as any]: 'true' }));
     const fileInput = document.getElementById('logoImage') as HTMLInputElement; if (fileInput) fileInput.value = "";
   };
-  const handleVacancySubmit = async (e: FormEvent<HTMLFormElement>) => { /* ... (no changes needed) ... */
+  const handleVacancySubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); setIsSubmittingVacancy(true);
     const formData = new FormData();
     Object.entries(vacancyForm).forEach(([k, v]) => {
@@ -446,7 +439,7 @@ const AdminDashboardPage: React.FC = () => {
     } catch (error: any) { toast.error(error.message); }
     finally { setIsSubmittingVacancy(false); }
   };
-  const handleEditVacancy = (vacancy: FetchedVacancyData) => { /* ... (no changes needed) ... */
+  const handleEditVacancy = (vacancy: FetchedVacancyData) => {
     setEditingVacancy(vacancy);
     setVacancyForm({
       title: vacancy.title, company: vacancy.company, location: vacancy.location, type: vacancy.type,
@@ -458,7 +451,7 @@ const AdminDashboardPage: React.FC = () => {
     setShowVacancyForm(true);
     setActiveSection('vacancy');
   };
-  const handleDeleteVacancy = async (vacancyId: string) => { /* ... (updated for itemType) ... */
+  const handleDeleteVacancy = async (vacancyId: string) => {
     openDeleteConfirmDialog(async () => {
       setIsSubmittingVacancy(true);
       try {
@@ -472,9 +465,8 @@ const AdminDashboardPage: React.FC = () => {
     }, "vacancy");
   };
 
-  // --- Blog Category Handlers ---
   const handleBlogCategoryFormChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setBlogCategoryForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  const handleBlogCategorySubmit = async (e: FormEvent<HTMLFormElement>) => { /* ... (no changes needed) ... */
+  const handleBlogCategorySubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!blogCategoryForm.name.trim()) { toast.error("Category name is required."); return; }
     setIsSubmittingBlogCategory(true);
@@ -492,13 +484,13 @@ const AdminDashboardPage: React.FC = () => {
     } catch (error: any) { toast.error(error.message || `Could not ${editingBlogCategory ? 'update' : 'add'} blog category.`); }
     finally { setIsSubmittingBlogCategory(false); }
   };
-  const handleEditBlogCategory = (category: BlogCategory) => { /* ... (no changes needed) ... */
+  const handleEditBlogCategory = (category: BlogCategory) => {
     setEditingBlogCategory(category);
     setBlogCategoryForm({ name: category.name, description: category.description || "" });
     setShowBlogCategoryForm(true);
     setActiveSection('blog-category');
   };
-  const handleDeleteBlogCategory = (categoryId: string) => { /* ... (updated for itemType) ... */
+  const handleDeleteBlogCategory = (categoryId: string) => {
     openDeleteConfirmDialog(async () => {
       setIsSubmittingBlogCategory(true);
       try {
@@ -513,10 +505,9 @@ const AdminDashboardPage: React.FC = () => {
     }, "blog category");
   };
 
-  // --- Blog Post Handlers ---
   const handleBlogPostFormChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setBlogPostForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   const handleBlogPostSelectChange = (name: 'categoryId', value: string) => setBlogPostForm(prev => ({ ...prev, [name]: value }));
-  const handleBlogImageChange = (e: ChangeEvent<HTMLInputElement>) => { /* ... (no changes needed) ... */
+  const handleBlogImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       if (file.size > 2 * 1024 * 1024) { toast.error("Image max 2MB."); e.target.value = ""; return; }
@@ -524,15 +515,15 @@ const AdminDashboardPage: React.FC = () => {
       setBlogImageFile(file); setBlogImagePreview(URL.createObjectURL(file));
     } else { setBlogImageFile(null); setBlogImagePreview(null); }
   };
-  const removeBlogPostImage = (isEditing = false) => { /* ... (no changes needed) ... */
+  const removeBlogPostImage = (isEditing = false) => {
     setBlogImageFile(null); setBlogImagePreview(null);
     if (isEditing && editingBlogPost) setBlogPostForm(prev => ({ ...prev, ['removeFeaturedImage' as any]: 'true' }));
     const fileInput = document.getElementById('blogFeaturedImage') as HTMLInputElement; if (fileInput) fileInput.value = "";
   };
-  const handleNewBlogPostCheckboxChange = (checked: boolean | 'indeterminate') => { /* ... (no changes needed) ... */
+  const handleNewBlogPostCheckboxChange = (checked: boolean | 'indeterminate') => {
     if (typeof checked === 'boolean') setBlogPostForm(prev => ({ ...prev, isPublished: checked }));
   };
-  const handleBlogPostSubmit = async (e: FormEvent<HTMLFormElement>) => { /* ... (no changes needed) ... */
+  const handleBlogPostSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); setIsSubmittingBlogPost(true);
     const formData = new FormData();
     Object.entries(blogPostForm).forEach(([k, v]) => {
@@ -554,7 +545,7 @@ const AdminDashboardPage: React.FC = () => {
     } catch (error: any) { toast.error(error.message); }
     finally { setIsSubmittingBlogPost(false); }
   };
-  const handleEditBlogPost = async (postId: string) => { /* ... (no changes needed) ... */
+  const handleEditBlogPost = async (postId: string) => {
     setIsSubmittingBlogPost(true);
     try {
       const response = await fetch(`${API_BASE_URL}/blog/posts/${postId}`);
@@ -576,7 +567,7 @@ const AdminDashboardPage: React.FC = () => {
     } catch (error: any) { toast.error(error.message || "Could not load post for editing."); }
     finally { setIsSubmittingBlogPost(false); }
   };
-  const handleDeleteBlogPost = (postId: string) => { /* ... (updated for itemType) ... */
+  const handleDeleteBlogPost = (postId: string) => {
     openDeleteConfirmDialog(async () => {
       setIsSubmittingBlogPost(true);
       try {
@@ -590,99 +581,92 @@ const AdminDashboardPage: React.FC = () => {
     }, "blog post");
   };
 
-  // --- Application Handlers ---
-  const handleOpenAppResponseModal = (application: Application) => { // Renamed
+  const handleOpenAppResponseModal = (application: Application) => {
     setSelectedApplicationForView(application);
     const initialSubject = `Regarding your application for ${application.jobTitle || 'the position'}`;
     const initialBody = `Dear ${application.name || 'Applicant'},\n\nThank you for your interest in the ${application.jobTitle || 'position'} at ${application.companyName || 'our company'}.\n\n[Your message here - please replace this bracketed text]\n\nSincerely,\nThe Silver Talent Team`;
 
-    setAppAdminResponseForm({ subject: initialSubject, body: initialBody }); // Renamed
-    setIsAppResponseModalOpen(true); // Renamed
+    setAppAdminResponseForm({ subject: initialSubject, body: initialBody });
+    setIsAppResponseModalOpen(true);
   };
-  const handleAppAdminResponseFormChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => { // Renamed
+  const handleAppAdminResponseFormChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     if (name === 'subject' || name === 'body') {
-      setAppAdminResponseForm(prev => ({ ...prev, [name]: value })); // Renamed
+      setAppAdminResponseForm(prev => ({ ...prev, [name]: value }));
     }
   };
-  const handleSendAppAdminResponse = async (e: FormEvent<HTMLFormElement>) => { // Renamed
+  const handleSendAppAdminResponse = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedApplicationForView) { toast.error("No application selected."); return; }
-    if (!String(appAdminResponseForm.subject).trim() || !String(appAdminResponseForm.body).trim()) { // Renamed
+    if (!String(appAdminResponseForm.subject).trim() || !String(appAdminResponseForm.body).trim()) {
       toast.error("Subject and response body are required."); return;
     }
-    setIsSendingAppResponse(true); // Renamed
+    setIsSendingAppResponse(true);
     try {
       const response = await fetch(`${API_BASE_URL}/applications/${selectedApplicationForView._id}/respond`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(appAdminResponseForm), // Renamed
+        body: JSON.stringify(appAdminResponseForm),
       });
       const result = await response.json();
       if (!response.ok || !result.success) throw new Error(result.message || "Failed to send response.");
       toast.success(result.message || "Response sent to applicant!");
-      setIsAppResponseModalOpen(false); // Renamed
+      setIsAppResponseModalOpen(false);
       fetchAllApplications(applicationStatusFilter);
     } catch (error: any) { toast.error(error.message || "Could not send response."); }
-    finally { setIsSendingAppResponse(false); } // Renamed
+    finally { setIsSendingAppResponse(false); }
   };
 
-  // --- NEW: Contact Submission Handlers ---
   const handleOpenContactResponseModal = (submission: ContactSubmission) => {
-    setSelectedContactSubmissionForView(submission); // Use new state variable
+    setSelectedContactSubmissionForView(submission);
     const initialSubject = `Re: Your message to Silver Talent (Ref: ${submission._id.slice(-6)})`;
     const initialBody = `Dear ${submission.yourName},\n\nThank you for contacting us. Regarding your message:\n\n"${submission.yourMessage.substring(0, 100)}${submission.yourMessage.length > 100 ? '...' : ''}"\n\n[Your response here]\n\nSincerely,\nThe Silver Talent Team`;
 
-    setContactMsgAdminResponseForm({ subject: initialSubject, body: initialBody }); // Use new state variable
-    setIsContactMsgResponseModalOpen(true); // Use new state variable
+    setContactMsgAdminResponseForm({ subject: initialSubject, body: initialBody });
+    setIsContactMsgResponseModalOpen(true);
 
     if (submission.status === 'New') {
-      updateContactSubmissionStatus(submission._id, 'Viewed', submission.adminNotes); // Keep notes if they exist
+      updateContactSubmissionStatus(submission._id, 'Viewed', submission.adminNotes);
     }
   };
-
-  const handleContactMsgAdminResponseFormChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => { // New handler
+  const handleContactMsgAdminResponseFormChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     if (name === 'subject' || name === 'body') {
-      setContactMsgAdminResponseForm(prev => ({ ...prev, [name]: value })); // Use new state variable
+      setContactMsgAdminResponseForm(prev => ({ ...prev, [name]: value }));
     }
   };
-
-  const handleSendContactMsgAdminResponse = async (e: FormEvent<HTMLFormElement>) => { // New handler
+  const handleSendContactMsgAdminResponse = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedContactSubmissionForView) { toast.error("No submission selected."); return; }
     if (!String(contactMsgAdminResponseForm.subject).trim() || !String(contactMsgAdminResponseForm.body).trim()) {
       toast.error("Subject and response body are required."); return;
     }
 
-    setIsSendingContactMsgResponse(true); // Use new state variable
+    setIsSendingContactMsgResponse(true);
     try {
       const response = await fetch(`${API_BASE_URL}/contact-submissions/${selectedContactSubmissionForView._id}/respond`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(contactMsgAdminResponseForm), // Use new state variable
+        body: JSON.stringify(contactMsgAdminResponseForm),
       });
       const result = await response.json();
       if (!response.ok || !result.success) throw new Error(result.message || "Failed to send response.");
       toast.success(result.message || "Response sent to user!");
 
-      setIsContactMsgResponseModalOpen(false); // Use new state variable
-      fetchAllContactSubmissions(contactStatusFilter); // Refresh list
+      setIsContactMsgResponseModalOpen(false);
+      fetchAllContactSubmissions(contactStatusFilter);
     } catch (error: any) {
       toast.error(error.message || "Could not send response.");
     } finally {
-      setIsSendingContactMsgResponse(false); // Use new state variable
+      setIsSendingContactMsgResponse(false);
     }
   };
 
   const updateContactSubmissionStatus = async (submissionId: string, newStatus: ContactSubmission['status'], notes?: string) => {
-    // This function now primarily updates status and notes if notes are passed.
-    // The 'Replied' status with repliedAt is handled by handleSendContactMsgAdminResponse if an email is sent.
-    // If just changing status without sending email, repliedAt won't be set by this function.
-    setIsUpdatingNotes(true); // Generic loading state for status/notes update
+    setIsUpdatingNotes(true);
     try {
       const payload: { status: ContactSubmission['status'], adminNotes?: string } = { status: newStatus };
-      if (notes !== undefined) { // Only include notes if explicitly passed (e.g., from notes edit)
+      if (notes !== undefined) {
         payload.adminNotes = notes;
       }
 
@@ -694,12 +678,10 @@ const AdminDashboardPage: React.FC = () => {
       const result = await response.json();
       if (!response.ok || !result.success) throw new Error(result.message || "Failed to update status.");
 
-      // toast.success(result.message || `Status updated to ${newStatus}.`); // Can be a bit noisy
-
       setAllContactSubmissions(prevSubs =>
         prevSubs.map(sub =>
           sub._id === submissionId ?
-            { ...sub, ...result.submission } // Use backend's updated submission
+            { ...sub, ...result.submission }
             : sub
         )
       );
@@ -715,10 +697,9 @@ const AdminDashboardPage: React.FC = () => {
     }
   };
 
-  const handleDeleteContactSubmission = (submissionId: string) => { // New handler
+  const handleDeleteContactSubmission = (submissionId: string) => {
     openDeleteConfirmDialog(async () => {
       try {
-        // Consider adding a loading state if needed: setIsLoadingContactSubmissions(true) or a specific one
         const response = await fetch(`${API_BASE_URL}/contact-submissions/${submissionId}`, { method: 'DELETE' });
         const result = await response.json();
         if (!response.ok || !result.success) throw new Error(result.message || "Delete failed.");
@@ -726,20 +707,36 @@ const AdminDashboardPage: React.FC = () => {
         setAllContactSubmissions(prev => prev.filter(s => s._id !== submissionId));
       } catch (error: any) { toast.error(error.message); }
       finally {
-        // setIsLoadingContactSubmissions(false); 
         setShowDeleteConfirm(false);
       }
     }, "contact submission");
   };
 
+  const handleDeleteSubscription = (subscriptionId: string) => {
+    openDeleteConfirmDialog(async () => {
+      setIsLoadingAllSubscriptions(true);
+      try {
+        const response = await fetch(`${API_BASE_URL}/subscriptions/${subscriptionId}`, { method: 'DELETE' });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.message || "Failed to delete subscription.");
+        toast.success(result.message || "Subscription deleted!");
+        setAllSubscriptions(prev => prev.filter(s => s._id !== subscriptionId));
+      } catch (error: any) {
+        toast.error(error.message);
+      } finally {
+        setIsLoadingAllSubscriptions(false);
+        setShowDeleteConfirm(false);
+      }
+    }, "email subscription");
+  };
+
+
   const handleEditNotes = (submission: ContactSubmission) => {
     setEditingSubmissionNotes({ id: submission._id, notes: submission.adminNotes || "" });
   };
-
   const handleSaveNotes = async () => {
     if (!editingSubmissionNotes) return;
     setIsUpdatingNotes(true);
-    // Find the current status to pass it along, so only notes are updated
     const currentSubmission = allContactSubmissions.find(s => s._id === editingSubmissionNotes.id);
     if (!currentSubmission) {
       toast.error("Submission not found for notes update.");
@@ -748,25 +745,23 @@ const AdminDashboardPage: React.FC = () => {
     }
     const success = await updateContactSubmissionStatus(
       editingSubmissionNotes.id,
-      currentSubmission.status, // Keep current status
+      currentSubmission.status,
       editingSubmissionNotes.notes
     );
     if (success) {
       toast.success("Admin notes updated!");
-      setEditingSubmissionNotes(null); // Close editing UI
+      setEditingSubmissionNotes(null);
     }
-    // No explicit error toast here as updateContactSubmissionStatus handles it
     setIsUpdatingNotes(false);
   };
 
 
-  // --- Render Functions ---
   const renderSidebar = () => (
     <motion.div
       initial={{ x: -300 }}
       animate={{ x: isSidebarOpen ? 0 : -300 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className={`fixed top-0 left-0 h-screen bg-white shadow-lg z-20 ${isSidebarOpen ? 'w-60 sm:w-64' : 'w-0 overflow-hidden' // Slightly narrower on small screens
+      className={`fixed top-0 left-0 h-screen bg-white shadow-lg z-20 ${isSidebarOpen ? 'w-60 sm:w-64' : 'w-0 overflow-hidden'
         }`}
     >
       <div className="p-4 border-b flex items-center justify-between bg-gradient-to-r from-gray-50 to-white">
@@ -779,6 +774,7 @@ const AdminDashboardPage: React.FC = () => {
         {[
           { section: 'contact' as AdminSection, label: 'Contact Info', icon: Settings, action: () => { setActiveSection('contact'); setShowVacancyForm(false); setShowBlogCategoryForm(false); setShowBlogPostForm(false); } },
           { section: 'manage-contact-submissions' as AdminSection, label: 'Contact Inbox', icon: Inbox, action: () => { setActiveSection('manage-contact-submissions'); setShowVacancyForm(false); setShowBlogCategoryForm(false); setShowBlogPostForm(false); } },
+          { section: 'manage-subscriptions' as AdminSection, label: 'Email Subscribers', icon: BellRing, action: () => { setActiveSection('manage-subscriptions'); setShowVacancyForm(false); setShowBlogCategoryForm(false); setShowBlogPostForm(false); } },
           { section: 'vacancy' as AdminSection, label: 'Add Vacancy', icon: PlusCircle, action: () => { resetAndCloseVacancyForm(); setActiveSection('vacancy'); setShowVacancyForm(true); setShowBlogCategoryForm(false); setShowBlogPostForm(false); } },
           { section: 'manage-vacancies' as AdminSection, label: 'Manage Vacancies', icon: ListChecks, action: () => { setActiveSection('manage-vacancies'); setShowVacancyForm(false); setShowBlogCategoryForm(false); setShowBlogPostForm(false); } },
           { section: 'manage-applications' as AdminSection, label: 'Manage Applications', icon: Users, action: () => { setActiveSection('manage-applications'); setShowVacancyForm(false); setShowBlogCategoryForm(false); setShowBlogPostForm(false); } },
@@ -809,7 +805,7 @@ const AdminDashboardPage: React.FC = () => {
       </nav>
     </motion.div>
   );
-  const renderContactSection = () => ( /* ... (no changes needed) ... */
+  const renderContactSection = () => (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="bg-white p-4 sm:p-6 md:p-8 rounded-xl shadow-lg">
       <div className="flex items-center mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-gray-200"> <Settings size={20} className="mr-2 sm:mr-3 text-sky-600" /> <h2 className="text-xl sm:text-2xl font-semibold text-gray-700">Manage Contact Information</h2></div>
       {isContactLoading ? (<div className="space-y-4">{[...Array(4)].map((_, i) => (<div key={i} className="h-10 bg-gray-200 rounded-md animate-pulse"></div>))}</div>
@@ -826,7 +822,7 @@ const AdminDashboardPage: React.FC = () => {
       )}
     </motion.div>
   );
-  const renderVacancyFormSection = () => ( /* ... (no changes needed) ... */
+  const renderVacancyFormSection = () => (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
       <div className="flex items-center justify-between mb-6 pb-4 border-b"> <div className="flex items-center"><PlusCircle size={24} className="mr-3 text-green-600" /><h2 className="text-2xl font-semibold text-gray-700">{editingVacancy ? 'Edit Vacancy' : 'Add New Vacancy'}</h2></div> <Button variant="outline" onClick={() => { resetAndCloseVacancyForm(); setActiveSection('manage-vacancies'); }}>Cancel</Button></div>
       {isLoadingVacancyFilters ? (<div className="space-y-4">{[...Array(6)].map((_, i) => (<div key={i} className="h-10 bg-gray-200 rounded-md animate-pulse"></div>))}</div>) : (
@@ -847,7 +843,7 @@ const AdminDashboardPage: React.FC = () => {
       )}
     </motion.div>
   );
-  const renderManageVacanciesSection = () => ( /* ... (no changes needed) ... */
+  const renderManageVacanciesSection = () => (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
       <div className="flex items-center justify-between mb-6 pb-4 border-b"><h2 className="text-2xl font-semibold text-gray-700">Manage Vacancies</h2><Button onClick={() => { resetAndCloseVacancyForm(); setActiveSection('vacancy'); setShowVacancyForm(true); }}> <PlusCircle size={18} className="mr-2" /> Add New Vacancy</Button></div>
       {isLoadingAllVacancies ? <div className="flex justify-center items-center p-10"><Loader2 className="h-8 w-8 animate-spin text-sky-600" /></div> : !allVacancies || allVacancies.length === 0 ? <p className="text-center text-gray-500 py-5">No vacancies found.</p> : (
@@ -859,7 +855,7 @@ const AdminDashboardPage: React.FC = () => {
       )}
     </motion.div>
   );
-  const renderBlogCategoryFormSection = () => ( /* ... (no changes needed) ... */
+  const renderBlogCategoryFormSection = () => (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
       <div className="flex items-center justify-between mb-6 pb-4 border-b"><div className="flex items-center"><Layers size={24} className="mr-3 text-indigo-600" /><h2 className="text-2xl font-semibold text-gray-700">{editingBlogCategory ? 'Edit Blog Category' : 'Add New Blog Category'}</h2></div><Button variant="outline" onClick={() => { resetAndCloseBlogCategoryForm(); setActiveSection('manage-blog-categories'); }}>Cancel</Button></div>
       <form onSubmit={handleBlogCategorySubmit} className="space-y-6">
@@ -869,7 +865,7 @@ const AdminDashboardPage: React.FC = () => {
       </form>
     </motion.div>
   );
-  const renderManageBlogCategoriesSection = () => ( /* ... (no changes needed) ... */
+  const renderManageBlogCategoriesSection = () => (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
       <div className="flex items-center justify-between mb-6 pb-4 border-b"><h2 className="text-2xl font-semibold text-gray-700">Manage Blog Categories</h2><Button onClick={() => { resetAndCloseBlogCategoryForm(); setActiveSection('blog-category'); setShowBlogCategoryForm(true); }}> <PlusCircle size={18} className="mr-2" /> Add New Category</Button></div>
       {isLoadingAllBlogCategories ? <div className="flex justify-center items-center p-10"><Loader2 className="h-8 w-8 animate-spin text-indigo-600" /></div> : !allBlogCategories || allBlogCategories.length === 0 ? <p className="text-center text-gray-500 py-5">No blog categories found.</p> : (
@@ -881,7 +877,7 @@ const AdminDashboardPage: React.FC = () => {
       )}
     </motion.div>
   );
-  const renderBlogPostFormSection = () => ( /* ... (no changes needed) ... */
+  const renderBlogPostFormSection = () => (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
       <div className="flex items-center justify-between mb-6 pb-4 border-b"><div className="flex items-center"><Edit3 size={24} className="mr-3 text-purple-600" /><h2 className="text-2xl font-semibold text-gray-700">{editingBlogPost ? 'Edit Blog Post' : 'Add New Blog Post'}</h2></div><Button variant="outline" onClick={() => { resetAndCloseBlogPostForm(); setActiveSection('manage-blog-posts'); }}>Cancel</Button></div>
       {isLoadingBlogCategoriesForDropdown ? (<div className="space-y-4">{[...Array(7)].map((_, i) => (<div key={i} className="h-10 bg-gray-200 rounded-md animate-pulse"></div>))}</div>) : (
@@ -902,7 +898,7 @@ const AdminDashboardPage: React.FC = () => {
       )}
     </motion.div>
   );
-  const renderManageBlogPostsSection = () => ( /* ... (no changes needed) ... */
+  const renderManageBlogPostsSection = () => (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
       <div className="flex items-center justify-between mb-6 pb-4 border-b"><h2 className="text-2xl font-semibold text-gray-700">Manage Blog Posts</h2><Button onClick={() => { resetAndCloseBlogPostForm(); setActiveSection('blog-post'); setShowBlogPostForm(true); }}> <PlusCircle size={18} className="mr-2" /> Add New Post</Button></div>
       {isLoadingAllBlogPosts ? <div className="flex justify-center items-center p-10"><Loader2 className="h-8 w-8 animate-spin text-purple-600" /></div> : !allBlogPosts || allBlogPosts.length === 0 ? <p className="text-center text-gray-500 py-5">No blog posts found.</p> : (
@@ -914,7 +910,7 @@ const AdminDashboardPage: React.FC = () => {
       )}
     </motion.div>
   );
-  const renderManageApplicationsSection = () => ( /* ... (no changes needed) ... */
+  const renderManageApplicationsSection = () => (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -993,7 +989,6 @@ const AdminDashboardPage: React.FC = () => {
     </motion.div>
   );
 
-  // NEW: Render function for Contact Submissions
   const renderManageContactSubmissionsSection = () => (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -1050,7 +1045,7 @@ const AdminDashboardPage: React.FC = () => {
                   <TableCell className="py-3">
                     <Select
                       value={sub.status}
-                      onValueChange={(newStatus) => updateContactSubmissionStatus(sub._id, newStatus as ContactSubmission['status'], sub.adminNotes)} // Pass existing notes
+                      onValueChange={(newStatus) => updateContactSubmissionStatus(sub._id, newStatus as ContactSubmission['status'], sub.adminNotes)}
                     >
                       <SelectTrigger className="h-8 text-xs w-full max-w-[100px] sm:max-w-[120px] capitalize">
                         <SelectValue />
@@ -1082,12 +1077,59 @@ const AdminDashboardPage: React.FC = () => {
     </motion.div>
   );
 
+  const renderManageSubscriptionsSection = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="bg-white p-4 sm:p-6 md:p-8 rounded-xl shadow-lg"
+    >
+      <div className="flex flex-col sm:flex-row items-center justify-between mb-6 pb-4 border-b">
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-700 mb-4 sm:mb-0 flex items-center">
+          <BellRing className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3 text-orange-600" /> Manage Email Subscribers
+        </h2>
+      </div>
+      {isLoadingAllSubscriptions ? (
+        <div className="flex justify-center items-center p-10"><Loader2 className="h-8 w-8 animate-spin text-orange-600" /></div>
+      ) : !allSubscriptions || allSubscriptions.length === 0 ? (
+        <p className="text-center text-gray-500 py-5">No email subscriptions found.</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-2/5">Email Address</TableHead>
+                <TableHead>Subscribed On</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {allSubscriptions.map(sub => (
+                <TableRow key={sub._id}>
+                  <TableCell className="font-medium text-gray-800">
+                    <a href={`mailto:${sub.email}`} className="hover:underline">{sub.email}</a>
+                  </TableCell>
+                  <TableCell className="text-sm text-gray-600">{new Date(sub.createdAt).toLocaleDateString()}</TableCell>
+                  <TableCell className="text-right">
+                    <Button variant="destructive" size="sm" onClick={() => handleDeleteSubscription(sub._id)}>
+                      <Trash2 size={16} className="mr-1" />
+                      Delete
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      )}
+    </motion.div>
+  );
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex">
       <Toaster richColors position="top-center" duration={3000} />
 
-      {/* General Delete Confirmation Dialog */}
       <AlertDialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
         <AlertDialogContent className="max-w-[90vw] sm:max-w-md">
           <AlertDialogHeader>
@@ -1103,14 +1145,13 @@ const AdminDashboardPage: React.FC = () => {
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Dialog for Responding to Job Applications */}
-      <Dialog open={isAppResponseModalOpen} onOpenChange={(isOpen) => { // Renamed
+      <Dialog open={isAppResponseModalOpen} onOpenChange={(isOpen) => {
         if (!isOpen) {
-          setIsAppResponseModalOpen(false); // Renamed
+          setIsAppResponseModalOpen(false);
           setSelectedApplicationForView(null);
-          setAppAdminResponseForm({ subject: '', body: '' }); // Renamed
+          setAppAdminResponseForm({ subject: '', body: '' });
         } else {
-          setIsAppResponseModalOpen(true); // Renamed
+          setIsAppResponseModalOpen(true);
         }
       }}>
         <DialogContent className="sm:max-w-2xl bg-white">
@@ -1136,30 +1177,30 @@ const AdminDashboardPage: React.FC = () => {
                   <ExternalLink size={14} className="mr-1.5" /> View Uploaded Resume
                 </a>
               )}
-              <form onSubmit={handleSendAppAdminResponse} className="space-y-4 pt-4 border-t"> {/* Renamed */}
+              <form onSubmit={handleSendAppAdminResponse} className="space-y-4 pt-4 border-t">
                 <div>
                   <Label htmlFor="appAdminResponseSubject" className="text-sm font-medium text-gray-700">Email Subject</Label>
                   <Input
                     id="appAdminResponseSubject" name="subject"
-                    value={appAdminResponseForm.subject} // Renamed
-                    onChange={handleAppAdminResponseFormChange} // Renamed
-                    className="mt-1 text-sm" required disabled={isSendingAppResponse} // Renamed
+                    value={appAdminResponseForm.subject}
+                    onChange={handleAppAdminResponseFormChange}
+                    className="mt-1 text-sm" required disabled={isSendingAppResponse}
                   />
                 </div>
                 <div>
                   <Label htmlFor="appAdminResponseBody" className="text-sm font-medium text-gray-700">Response Message</Label>
                   <Textarea
                     id="appAdminResponseBody" name="body"
-                    value={appAdminResponseForm.body} // Renamed
-                    onChange={handleAppAdminResponseFormChange} // Renamed
-                    className="mt-1 text-sm min-h-[150px]" rows={6} required disabled={isSendingAppResponse} // Renamed
+                    value={appAdminResponseForm.body}
+                    onChange={handleAppAdminResponseFormChange}
+                    className="mt-1 text-sm min-h-[150px]" rows={6} required disabled={isSendingAppResponse}
                     placeholder="Compose your response to the applicant here..."
                   />
                 </div>
                 <DialogFooter className="pt-2">
-                  <Button type="button" variant="outline" onClick={() => setIsAppResponseModalOpen(false)} disabled={isSendingAppResponse}>Cancel</Button> {/* Renamed */}
-                  <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={isSendingAppResponse}> {/* Renamed */}
-                    {isSendingAppResponse && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} {/* Renamed */}
+                  <Button type="button" variant="outline" onClick={() => setIsAppResponseModalOpen(false)} disabled={isSendingAppResponse}>Cancel</Button>
+                  <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={isSendingAppResponse}>
+                    {isSendingAppResponse && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Send Response
                   </Button>
                 </DialogFooter>
@@ -1169,15 +1210,14 @@ const AdminDashboardPage: React.FC = () => {
         </DialogContent>
       </Dialog>
 
-      {/* NEW: Dialog for Viewing/Responding to Contact Submissions */}
-      <Dialog open={isContactMsgResponseModalOpen} onOpenChange={(isOpen) => { // Renamed
+      <Dialog open={isContactMsgResponseModalOpen} onOpenChange={(isOpen) => {
         if (!isOpen) {
-          setIsContactMsgResponseModalOpen(false); // Renamed
-          setSelectedContactSubmissionForView(null); // Renamed
-          setContactMsgAdminResponseForm({ subject: '', body: '' }); // Renamed
-          setEditingSubmissionNotes(null); // Clear notes editing when modal closes
+          setIsContactMsgResponseModalOpen(false);
+          setSelectedContactSubmissionForView(null);
+          setContactMsgAdminResponseForm({ subject: '', body: '' });
+          setEditingSubmissionNotes(null);
         } else {
-          setIsContactMsgResponseModalOpen(true); // Renamed
+          setIsContactMsgResponseModalOpen(true);
         }
       }}>
         <DialogContent className="sm:max-w-2xl md:max-w-3xl bg-white max-h-[90vh] flex flex-col">
@@ -1192,7 +1232,7 @@ const AdminDashboardPage: React.FC = () => {
             )}
           </DialogHeader>
           {selectedContactSubmissionForView && (
-            <div className="flex-grow overflow-y-auto py-2 pr-1 sm:pr-2 space-y-4"> {/* Added pr for scrollbar */}
+            <div className="flex-grow overflow-y-auto py-2 pr-1 sm:pr-2 space-y-4">
               <div className="p-3 bg-gray-50 rounded-md border">
                 <h4 className="font-semibold text-sm mb-1 text-gray-700">Original Message:</h4>
                 <p className="text-sm text-gray-600 whitespace-pre-wrap">{selectedContactSubmissionForView.yourMessage}</p>
@@ -1216,7 +1256,7 @@ const AdminDashboardPage: React.FC = () => {
                     <Button size="sm" variant="outline" onClick={() => setEditingSubmissionNotes(null)}>Cancel</Button>
                   </div>
                 </div>
-              ) : ( // Show existing notes or "Add notes" button
+              ) : (
                 <div className="p-3 bg-gray-50 rounded-md border relative group">
                   <div className="flex justify-between items-start">
                     <h4 className="font-semibold text-sm mb-1 text-gray-700">Admin Notes:</h4>
@@ -1230,30 +1270,30 @@ const AdminDashboardPage: React.FC = () => {
                 </div>
               )}
 
-              <form onSubmit={handleSendContactMsgAdminResponse} className="space-y-3 pt-3 border-t"> {/* Renamed */}
+              <form onSubmit={handleSendContactMsgAdminResponse} className="space-y-3 pt-3 border-t">
                 <div>
                   <Label htmlFor="contactMsgResponseSubject" className="text-sm font-medium text-gray-700">Your Email Subject</Label>
                   <Input
                     id="contactMsgResponseSubject" name="subject"
-                    value={contactMsgAdminResponseForm.subject} // Renamed
-                    onChange={handleContactMsgAdminResponseFormChange} // Renamed
-                    className="mt-1 text-sm" required disabled={isSendingContactMsgResponse} // Renamed
+                    value={contactMsgAdminResponseForm.subject}
+                    onChange={handleContactMsgAdminResponseFormChange}
+                    className="mt-1 text-sm" required disabled={isSendingContactMsgResponse}
                   />
                 </div>
                 <div>
                   <Label htmlFor="contactMsgResponseBody" className="text-sm font-medium text-gray-700">Your Response Message</Label>
                   <Textarea
                     id="contactMsgResponseBody" name="body"
-                    value={contactMsgAdminResponseForm.body} // Renamed
-                    onChange={handleContactMsgAdminResponseFormChange} // Renamed
-                    className="mt-1 text-sm min-h-[120px]" rows={5} required disabled={isSendingContactMsgResponse} // Renamed
+                    value={contactMsgAdminResponseForm.body}
+                    onChange={handleContactMsgAdminResponseFormChange}
+                    className="mt-1 text-sm min-h-[120px]" rows={5} required disabled={isSendingContactMsgResponse}
                     placeholder="Compose your response to the user here..."
                   />
                 </div>
                 <DialogFooter className="pt-1">
-                  <Button type="button" variant="outline" onClick={() => setIsContactMsgResponseModalOpen(false)} disabled={isSendingContactMsgResponse}>Cancel</Button> {/* Renamed */}
-                  <Button type="submit" className="bg-cyan-600 hover:bg-cyan-700" disabled={isSendingContactMsgResponse}> {/* Renamed */}
-                    {isSendingContactMsgResponse && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} {/* Renamed */}
+                  <Button type="button" variant="outline" onClick={() => setIsContactMsgResponseModalOpen(false)} disabled={isSendingContactMsgResponse}>Cancel</Button>
+                  <Button type="submit" className="bg-cyan-600 hover:bg-cyan-700" disabled={isSendingContactMsgResponse}>
+                    {isSendingContactMsgResponse && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     <SendHorizonal size={16} className="mr-2" /> Send Response
                   </Button>
                 </DialogFooter>
@@ -1263,7 +1303,6 @@ const AdminDashboardPage: React.FC = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Mobile Header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 bg-white shadow-sm z-10 p-3 sm:p-4 flex items-center justify-between">
         <Button variant="ghost" size="icon" onClick={() => setIsSidebarOpen(true)} className="hover:bg-gray-100 transition-colors"><Menu className="h-5 w-5 sm:h-6 sm:w-6" /></Button>
         <h1 className="text-lg sm:text-xl font-bold text-gray-800">Admin Dashboard</h1><div className="w-10"></div>
@@ -1271,7 +1310,7 @@ const AdminDashboardPage: React.FC = () => {
 
       {renderSidebar()}
 
-      <main className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'lg:ml-60 sm:lg:ml-64' : 'lg:ml-0'}`}> {/* Adjusted ml */}
+      <main className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'lg:ml-60 sm:lg:ml-64' : 'lg:ml-0'}`}>
         <div className="container mx-auto py-4 sm:py-6 md:py-8 px-3 sm:px-4 pt-16 sm:pt-20 lg:pt-8">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -1299,7 +1338,8 @@ const AdminDashboardPage: React.FC = () => {
               {(activeSection === 'manage-blog-categories' && !showBlogCategoryForm) && renderManageBlogCategoriesSection()}
               {(activeSection === 'blog-post' || (showBlogPostForm && activeSection !== 'manage-blog-posts')) && renderBlogPostFormSection()}
               {(activeSection === 'manage-blog-posts' && !showBlogPostForm) && renderManageBlogPostsSection()}
-              {activeSection === 'manage-contact-submissions' && renderManageContactSubmissionsSection()} {/* Render new section */}
+              {activeSection === 'manage-contact-submissions' && renderManageContactSubmissionsSection()}
+              {activeSection === 'manage-subscriptions' && renderManageSubscriptionsSection()}
             </motion.div>
           </AnimatePresence>
         </div>

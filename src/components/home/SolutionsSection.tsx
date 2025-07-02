@@ -101,7 +101,7 @@ const SolutionsSection = () => {
   const bottomRowSolutions = solutions.slice(4);
 
   return (
-    <section className="bg-blue-100 py-16 md:py-28">
+    <section className="bg-blue-50 py-8 md:py-8">
       <div className="container mx-auto px-4">
         <div className="mx-auto mb-16 max-w-3xl text-center">
           <p className="mb-2 font-semibold uppercase tracking-wider text-indigo-600">

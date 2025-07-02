@@ -64,7 +64,7 @@ const AdvantageCard = ({ advantage }) => (
 
 const CompetitiveEdge = () => {
   return (
-    <section className="bg-blue-50 py-16 md:py-28">
+    <section className="bg-blue-50 py-8 md:py-8">
       <div className="container mx-auto px-4">
         <div className="mx-auto mb-16 max-w-3xl text-center">
           <p className="mb-2 font-semibold uppercase tracking-wider text-indigo-600">
@@ -78,7 +78,7 @@ const CompetitiveEdge = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {advantagesData.map((advantage) => (
             <AdvantageCard key={advantage.id} advantage={advantage} />
           ))}

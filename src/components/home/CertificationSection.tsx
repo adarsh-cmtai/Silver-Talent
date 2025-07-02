@@ -57,7 +57,7 @@ const CertificationSection = () => {
   }, []);
 
   return (
-    <section className="py-16 md:py-11 bg-white"> {/* Section background remains white */}
+    <section className="py-8 md:py-8 bg-blue-50"> {/* Section background remains white */}
       <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 md:mb-16 text-slate-800 flex items-center justify-center gap-4">
           Our Accreditations & Recognitions

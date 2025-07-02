@@ -1,4 +1,3 @@
-// client/src/pages/Blogs.tsx (or your preferred path)
 import React, { useState, useEffect, ChangeEvent, useCallback, useRef } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,7 +18,6 @@ import { toast, Toaster } from 'sonner';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://silver-talent-backend-2.onrender.com/api";
 
-// --- TypeScript Interfaces ---
 interface BlogImage {
   public_id?: string;
   url: string;
@@ -36,12 +34,12 @@ interface BlogPost {
   title: string;
   slug: string;
   excerpt: string;
-  content: string[]; // Array of paragraphs
+  content: string[];
   author: string;
-  publishDate: string; // ISO Date string
+  publishDate: string;
   readTime: string;
   featuredImage?: BlogImage;
-  category: BlogCategoryRef; // Populated category
+  category: BlogCategoryRef;
   tags: string[];
   views?: number;
 }
@@ -65,8 +63,9 @@ const BlogsPage = () => {
 
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedCategorySlug, setSelectedCategorySlug] = useState<string>("all-categories");
+  
+  const isInitialMount = useRef(true);
 
-  // Fetch initial data (categories and all posts)
   useEffect(() => {
     document.title = "Blog | Silver Talent";
     const fetchInitialData = async () => {
@@ -81,18 +80,16 @@ const BlogsPage = () => {
         
         if (!postsResponse.ok) throw new Error(`Posts: ${postsResponse.statusText || postsResponse.status}`);
         const postsDataWrapper = await postsResponse.json();
-        // console.log("Initial posts data wrapper:", postsDataWrapper);
-        setBlogPosts(postsDataWrapper.posts || []); // Correctly extract the 'posts' array
+        setBlogPosts(postsDataWrapper.posts || []);
 
         if (!categoriesResponse.ok) throw new Error(`Categories: ${categoriesResponse.statusText || categoriesResponse.status}`);
         const categoriesData: BlogCategory[] = await categoriesResponse.json();
         setCategories(categoriesData);
 
       } catch (err: any) {
-        console.error("Error fetching blog data:", err);
         setError(err.message || "Failed to load blog content.");
         toast.error(err.message || "Failed to load blog content.");
-        setBlogPosts([]); // Ensure blogPosts is an empty array on error
+        setBlogPosts([]);
       } finally {
         setIsLoadingPosts(false);
         setIsLoadingCategories(false);
@@ -101,11 +98,9 @@ const BlogsPage = () => {
     fetchInitialData();
   }, []);
 
-
   const fetchFilteredPosts = useCallback(async () => {
     setIsLoadingPosts(true);
     setError(null);
-    // console.log(`Fetching filtered: search='${searchTerm}', category='${selectedCategorySlug}'`);
     try {
       const params = new URLSearchParams();
       if (searchTerm.trim()) params.append('search', searchTerm.trim());
@@ -119,43 +114,30 @@ const BlogsPage = () => {
         throw new Error(errorData.message || `Filtered Posts: ${response.statusText || response.status}`);
       }
       const dataWrapper = await response.json();
-      // console.log("Filtered posts data wrapper:", dataWrapper);
-      setBlogPosts(dataWrapper.posts || []); // Correctly extract the 'posts' array
+      setBlogPosts(dataWrapper.posts || []);
     } catch (err: any) {
-      console.error("Error fetching filtered blog posts:", err);
       setError(err.message || "Failed to load filtered blog posts.");
       toast.error(err.message || "Failed to load filtered posts.");
-      setBlogPosts([]); // Ensure blogPosts is an empty array on error
+      setBlogPosts([]);
     } finally {
       setIsLoadingPosts(false);
     }
-  }, [searchTerm, selectedCategorySlug]); // Dependencies: API_BASE_URL is constant, searchTerm & selectedCategorySlug are used
+  }, [searchTerm, selectedCategorySlug]);
 
-  // Fetch posts based on filters (debounced)
   useEffect(() => {
-    if (isLoadingCategories) {
-      return; // Don't do anything until categories are loaded
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
     }
+    
+    const handler = setTimeout(() => {
+      fetchFilteredPosts();
+    }, 700);
 
-    const isFilteringActive = searchTerm.trim() !== "" || selectedCategorySlug !== "all-categories";
-
-    if (isFilteringActive) {
-      const handler = setTimeout(() => {
-        fetchFilteredPosts();
-      }, 700); // Debounce
-      return () => clearTimeout(handler);
-    } else {
-      // This handles the case where filters are NOT active (i.e., show all posts)
-      // This can be a "reset filters" scenario.
-      // If posts are empty (e.g., after an error, then filters cleared), try reloading all.
-      if (blogPosts.length === 0 && !isLoadingPosts && !error) {
-         // console.log("Filters reset and no posts, fetching all.");
-         fetchFilteredPosts(); // This will fetch all posts as searchTerm is empty and category is 'all-categories'
-      }
-    }
-  }, [fetchFilteredPosts, isLoadingCategories, blogPosts.length, isLoadingPosts, error, searchTerm, selectedCategorySlug]);
-  // Note: searchTerm and selectedCategorySlug are deps of fetchFilteredPosts, but also included here
-  // to re-evaluate the isFilteringActive condition correctly.
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm, selectedCategorySlug, fetchFilteredPosts]);
   
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -183,14 +165,13 @@ const BlogsPage = () => {
         toast.loading("Loading article details...");
         const response = await fetch(`${API_BASE_URL}/blog/posts/${slug}`);
         if (!response.ok) throw new Error("Failed to load article details.");
-        const postData: BlogPost = await response.json(); // Assuming this endpoint returns the BlogPost object directly
+        const postData: BlogPost = await response.json();
         setSelectedBlog(postData);
         setBlogPosts(prevPosts => prevPosts.map(p => p._id === postData._id ? {...p, views: postData.views} : p));
         toast.dismiss();
     } catch (err: any) {
         toast.dismiss();
         toast.error(err.message || "Could not load article.");
-        console.error("Error fetching single blog post for modal:", err);
     }
   };
 
@@ -198,12 +179,12 @@ const BlogsPage = () => {
     <Card className="overflow-hidden animate-pulse">
       <div className="relative h-48 bg-gray-300"></div>
       <div className="p-6">
-        <div className="h-4 bg-gray-300 rounded w-3/4 mb-4"></div> {/* Meta info */}
-        <div className="h-6 bg-gray-300 rounded w-full mb-3"></div> {/* Title */}
-        <div className="h-4 bg-gray-300 rounded w-5/6 mb-1"></div> {/* Excerpt line 1 */}
-        <div className="h-4 bg-gray-300 rounded w-full mb-1"></div> {/* Excerpt line 2 */}
-        <div className="h-4 bg-gray-300 rounded w-2/3 mb-4"></div> {/* Excerpt line 3 */}
-        <div className="h-8 bg-gray-300 rounded w-1/3"></div> {/* Button */}
+        <div className="h-4 bg-gray-300 rounded w-3/4 mb-4"></div>
+        <div className="h-6 bg-gray-300 rounded w-full mb-3"></div>
+        <div className="h-4 bg-gray-300 rounded w-5/6 mb-1"></div>
+        <div className="h-4 bg-gray-300 rounded w-full mb-1"></div>
+        <div className="h-4 bg-gray-300 rounded w-2/3 mb-4"></div>
+        <div className="h-8 bg-gray-300 rounded w-1/3"></div>
       </div>
     </Card>
   );
@@ -211,26 +192,24 @@ const BlogsPage = () => {
   return (
     <div className="min-h-screen bg-slate-50 selection:bg-sky-100">
       <Toaster richColors position="top-center" />
-      {/* Hero Section */}
-      <div className="relative overflow-hidden bg-slate-900 text-white">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1453928582365-b6ad3332aab4?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center opacity-10 mix-blend-soft-light"></div>
-        <div className="container mx-auto px-4 py-24 sm:py-32 relative">
+      <div className="relative overflow-hidden bg-[#042c60] text-white">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-10 mix-blend-soft-light"></div>
+        <div className="container mx-auto px-4 py-14 sm:py-14 relative">
           <div className="max-w-3xl">
             <div className="inline-block px-3 py-1.5 bg-white/10 rounded-full backdrop-blur-sm mb-6">
               <span className="text-xs sm:text-sm font-medium">Latest Insights & Trends</span>
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight">
-              Talent & HR <span className="text-sky-400">Solutions Blog</span>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight text-[#fff]">
+              Talent & HR <span className="text-[#fff]">Solutions Blog</span>
             </h1>
-            <p className="text-lg sm:text-xl text-white/80 mb-8 leading-relaxed">
+            <p className="text-lg sm:text-xl text-[#fff] mb-8 leading-relaxed">
               Stay updated with trends, strategies, and best practices in recruitment, HR management, and talent development.
             </p>
           </div>
         </div>
       </div>
 
-      {/* Search and Filter Section */}
-      <div className="container mx-auto px-4 -mt-12 sm:-mt-16 relative z-10">
+      <div className="container mx-auto px-4 -mt-12 sm:-mt-20 relative z-10">
         <Card className="p-4 sm:p-6 bg-white shadow-xl border-gray-200 rounded-xl">
           <div className="flex flex-col md:flex-row gap-4 items-center">
             <div className="flex-1 relative w-full">
@@ -265,8 +244,7 @@ const BlogsPage = () => {
         </Card>
       </div>
 
-      {/* Blog Posts Section */}
-      <section className="py-16 sm:py-20 px-4">
+      <section className="py-16 sm:py-20 px-4 text-blue-100 bg-blue-50">
         <div className="container mx-auto">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
@@ -338,12 +316,11 @@ const BlogsPage = () => {
         </div>
       </section>
 
-      {/* Blog Detail Dialog (Modal) */}
       <Dialog open={!!selectedBlog} onOpenChange={(isOpen) => !isOpen && setSelectedBlog(null)}>
-        <DialogContent className="max-w-3xl w-[95vw] max-h-[90vh] overflow-y-auto p-0 rounded-lg">
+        <DialogContent className="max-w-3xl w-[95vw] max-h-[90vh] overflow-y-auto p-0 rounded-lg bg-blue-50">
           {selectedBlog && (
             <>
-            <DialogHeader className="p-6 pb-4 border-b sticky top-0 bg-white z-10 rounded-t-lg">
+            <DialogHeader className="p-6 pb-4 border-b sticky top-0 bg-blue-50 z-10 rounded-t-lg">
               <DialogTitle className="text-2xl sm:text-3xl font-bold text-gray-800 pr-10">{selectedBlog.title}</DialogTitle>
               <DialogClose key="dialog-close-button" className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
                 <X className="h-5 w-5" />

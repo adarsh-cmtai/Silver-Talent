@@ -2,10 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/sonner";
 import { motion } from "framer-motion";
-import { Facebook, Linkedin, Twitter, Mail, Phone, MapPin, Send } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Facebook, Linkedin, Twitter, Mail, Phone, MapPin, Send, Instagram } from "lucide-react";
 
 const Footer = () => {
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = (e) => {
     e.preventDefault();
     toast.success("Thank you for subscribing to our newsletter!");
   };
@@ -31,6 +32,15 @@ const Footer = () => {
     }
   };
 
+  const servicesLinks = [
+    { id: 'recruitment-services', title: 'Recruitment Services' },
+    { id: 'executive-search', title: 'Executive Search' },
+    { id: 'staffing-services', title: 'Staffing Services' },
+    { id: 'hr-outsourcing', title: 'HR Outsourcing' },
+    { id: 'payroll-services', title: 'Payroll Services' },
+    { id: 'training-development', title: 'Training & Development' }
+  ];
+
   return (
     <footer className="text-white pt-16 pb-6"
       style={{ backgroundColor: "#042c60" }}
@@ -41,14 +51,14 @@ const Footer = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-12"
         >
-          <motion.div variants={itemVariants}>
+          <motion.div variants={itemVariants} className="lg:col-span-1">
             <h3 className="text-2xl font-bold mb-4 text-white">
               Silver Talent<span className="text-sky-600">Services</span>
             </h3>
             <p className="mb-6 text-gray-200 leading-relaxed">
-              Empowering businesses with exceptional recruitment solutions designed to drive success.
+              Empowering businesses with exceptional recruitment solutions.
             </p>
             <div className="flex space-x-4">
               <motion.a
@@ -78,6 +88,15 @@ const Footer = () => {
                 <span className="sr-only">Facebook</span>
                 <Facebook className="h-5 w-5" />
               </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                href="#"
+                className="text-gray-200 hover:text-sky-600 transition-colors bg-gray-800 p-2 rounded-full hover:bg-gray-700"
+              >
+                <span className="sr-only">Instagram</span>
+                <Instagram className="h-5 w-5" />
+              </motion.a>
             </div>
           </motion.div>
 
@@ -87,19 +106,44 @@ const Footer = () => {
               Quick Links
             </h3>
             <ul className="space-y-3">
-              {['Home', 'About Us', 'Services', 'Blog', 'Vacancies', 'Contact'].map((link, index) => (
+              {['Home', 'About', 'Services', 'Blog', 'Contact'].map((link) => (
                 <motion.li
                   key={link}
                   whileHover={{ x: 5 }}
                   transition={{ duration: 0.2 }}
                 >
                   <a
-                    href={`/${link.toLowerCase().replace(' ', '-')}`}
+                    href={link === 'Home'? "/" : `/${link.toLowerCase().replace(' ', '-')}`}
                     className="text-gray-200 hover:text-sky-600 transition-colors flex items-center gap-2 group"
                   >
                     <span className="h-1 w-1 bg-sky-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
                     {link}
                   </a>
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <h3 className="text-xl font-bold mb-4 text-white flex items-center gap-2">
+              <span className="h-8 w-1 bg-sky-600 rounded-full"></span>
+              Services
+            </h3>
+            <ul className="space-y-3">
+              {servicesLinks.map((service) => (
+                <motion.li
+                  key={service.id}
+                  whileHover={{ x: 5 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Link
+                    to={`/services#${service.id}`}
+                    state={{ expandedServiceId: service.id }}
+                    className="text-gray-200 hover:text-sky-600 transition-colors flex items-center gap-2 group"
+                  >
+                    <span className="h-1 w-1 bg-sky-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                    {service.title}
+                  </Link>
                 </motion.li>
               ))}
             </ul>

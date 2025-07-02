@@ -1,47 +1,50 @@
 import { Button } from "@/components/ui/button";
 import { MoveRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const AboutHero = () => {
   return (
-    <section className="relative overflow-hidden bg-white">
-      <div 
-        className="h-full w-full bg-gradient-to-br from-sky-50 to-cyan-100"
-          style={{
-            WebkitClipPath: "path('M0 0 H calc(100% - 60px) Q 100% 50% calc(100% - 60px) 100% H 0 Z')",
-            clipPath: "path('M0 0 H calc(100% - 60px) Q 100% 50% calc(100% - 60px) 100% H 0 Z')",
-          }}
+    <section className="relative bg-white overflow-hidden">
+      <div
+        className="absolute inset-0 bg-gradient-to-br bg-white"
+        style={{
+          clipPath: "path('M0 0 H calc(100% - 120px) C calc(100% - 50px) 15%, 100% 40%, calc(100% - 80px) 100% H 0 Z')"
+        }}
       />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center py-0 md:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center py-4 md:py-4">
 
-          {/* Left Content Column */}
           <div className="animate-fade-in-left">
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+            <p className="text-sm font-semibold text-indigo-700 uppercase tracking-wider mb-4">
+              Who We Are
+            </p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight">
               About Silver Talent
             </h1>
-            
-            <p className="text-lg text-slate-600 mb-6 leading-relaxed">
-              At Silver Talent, we pride ourselves on delivering both quality and speed in recruitment. Our average turnaround time for providing a high-quality shortlist is just 24 to 48 hr, depending on the role's complexity. With one of the largest and most refined candidate databases in the country, we offer unmatched access to top-tier, experienced professionals.
+
+            <p className="text-lg text-slate-700 mb-6 leading-relaxed">
+              At Silver Talent, we pride ourselves on delivering both quality and speed in recruitment. Our average turnaround time for providing a high-quality shortlist is just 24 to 48 hours, depending on the role's complexity.
             </p>
-            
-            <p className="text-lg text-slate-600 mb-10 leading-relaxed">
-              We leverage proprietary assessment tools to create customized hiring solutions, significantly improving the chances of finding the right fit. Our domain-focused approach ensures targeted sourcing and successful placements.
+
+            <p className="text-lg text-slate-700 mb-10 leading-relaxed">
+              With one of the largest and most refined candidate databases in the country, we leverage <b>AI</b> and <b>proprietary assessment tools</b> to create customized hiring solutions, ensuring targeted sourcing and successful placements.
             </p>
-            
-            <Button size="lg" className="group bg-sky-600 hover:bg-sky-700 text-white font-bold px-8 py-6 rounded-full shadow-lg hover:shadow-sky-300 transition-all duration-300 text-base">
-              Learn More
-              <MoveRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-            </Button>
+
+            <Link to="/contact">
+              <Button size="lg" className="group bg-[#042c60] hover:bg-sky-700 text-white font-bold px-8 py-2 rounded-xl shadow-lg shadow-sky-500/20 hover:shadow-xl hover:shadow-sky-500/30 transition-all duration-300 text-lg">
+                Learn More
+                <MoveRight className="ml-3 h-6 w-6 transition-transform duration-300 group-hover:translate-x-1.5" />
+              </Button>
+            </Link>
           </div>
 
-          {/* Right Image Column */}
           <div className="animate-fade-in-right">
-            <div className="relative p-2 bg-white rounded-2xl">
+            <div className="relative p-3 bg-white rounded-2xl shadow-2xl shadow-slate-900/10">
               <img
-                src="/image/about/about.png"
+                src="/image/Home/image1.png"
                 alt="HR recruitment collaboration"
-                className=" w-full h-auto max-h-[450px]"
+                className="w-full h-auto rounded-xl max-h-[500px] object-cover"
               />
             </div>
           </div>
@@ -51,20 +54,20 @@ const AboutHero = () => {
       <style>
         {`
           @keyframes fade-in-left {
-            from { opacity: 0; transform: translateX(-20px); }
+            from { opacity: 0; transform: translateX(-25px); }
             to { opacity: 1; transform: translateX(0); }
           }
           .animate-fade-in-left {
-            animation: fade-in-left 0.8s ease-out forwards;
+            animation: fade-in-left 1s ease-out forwards;
           }
 
           @keyframes fade-in-right {
-            from { opacity: 0; transform: translateX(20px); }
+            from { opacity: 0; transform: translateX(25px); }
             to { opacity: 1; transform: translateX(0); }
           }
           .animate-fade-in-right {
-            animation: fade-in-right 0.8s ease-out 0.2s forwards;
-            animation-fill-mode: backwards; 
+            animation: fade-in-right 1s ease-out 0.2s forwards;
+            animation-fill-mode: backwards;
           }
         `}
       </style>

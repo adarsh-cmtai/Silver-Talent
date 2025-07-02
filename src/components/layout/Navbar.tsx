@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Mail, Phone, Briefcase, Home, Info, Newspaper, PhoneCall, LogIn, Twitter, Facebook, Instagram, Building2 } from "lucide-react";
+import { Menu, X, Mail, Phone, Briefcase, Home, Info, Newspaper, PhoneCall, LogIn, Twitter, Facebook, Instagram, Linkedin, Building2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -17,7 +17,9 @@ const socialLinks = [
   { href: "https://twitter.com", icon: Twitter },
   { href: "https://facebook.com", icon: Facebook },
   { href: "https://instagram.com", icon: Instagram },
+  { href: "https://linkedin.com", icon: Linkedin },
 ];
+
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -59,6 +61,7 @@ const Navbar = () => {
         >
           <div className="container mx-auto px-4 flex justify-between items-center py-2 text-xs sm:text-sm">
             <div className="flex items-center gap-x-4">
+              <span>For Employer Enquiry :</span>
               <a href="mailto:hr@silvertalent.in" className="flex items-center gap-1.5 hover:text-sky-400 transition-colors">
                 <Mail size={15} />
                 <span>hr@silvertalent.in</span>
@@ -123,9 +126,17 @@ const Navbar = () => {
 
             <div className="hidden lg:flex items-center space-x-3">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button asChild className={`bg-[#042c60e1] ${buttonStyles.common}`}>
+                  <Link to="/vacancies">
+                    JOB SEEKER
+                  </Link>
+                </Button>
+              </motion.div>
+
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button asChild className={`${buttonStyles.primary} ${buttonStyles.common}`}>
-                  <Link to="/admin-login">
-                    <LogIn size={16} /> Admin Login
+                  <Link to="/blog">
+                    Employer
                   </Link>
                 </Button>
               </motion.div>
@@ -178,8 +189,8 @@ const Navbar = () => {
                 </div>
                 <div className="p-5 mt-auto border-t space-y-3">
                   <Button asChild className={`${buttonStyles.primary} ${buttonStyles.common} w-full justify-center`}>
-                    <Link to="/admin-login" onClick={() => setIsOpen(false)}>
-                      <LogIn size={16} /> Admin Login
+                    <Link to="/vacancies" onClick={() => setIsOpen(false)}>
+                      JOB SEEKER
                     </Link>
                   </Button>
                 </div>

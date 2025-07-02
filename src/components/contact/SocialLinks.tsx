@@ -91,7 +91,7 @@ const SocialLinks = () => {
   ];
 
   // Define colors based on the image
-  const navyColor = "#f59e0b"; // Example: Tailwind's indigo-800 or a custom navy
+  const navyColor = "#4338CA"; // Example: Tailwind's indigo-800 or a custom navy
   const yellowColor = "#042c60"; // Example: Tailwind's amber-500 or a custom gold/yellow
 
   return (
@@ -120,7 +120,7 @@ const SocialLinks = () => {
               >
                 <div 
                   className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-lg flex items-center justify-center text-2xl sm:text-3xl"
-                  style={{ color: navyColor }}
+                  style={{ color: "white" }}
                 >
                   {social.icon}
                 </div>

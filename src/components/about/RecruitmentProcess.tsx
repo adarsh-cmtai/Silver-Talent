@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
 
 const processSteps = [
   {
@@ -34,103 +33,67 @@ const processSteps = [
   },
 ];
 
-const MAX_WORDS = 15;
-
-const ProcessStepCard = ({ step, index, isExpanded, onToggle }) => {
-  const isTooLong = step.description.split(" ").length > MAX_WORDS;
-  const displayText = isExpanded ? step.description : `${step.description.split(" ").slice(0, MAX_WORDS).join(" ")}...`;
-
+const ProcessStepCard = ({ step }) => {
   return (
-    <div className="group flex h-full  flex-col overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl border border-transparent hover:border-indigo-300">
-      <div className="relative h-40 w-full overflow-hidden">
+    <div className="group flex h-full w-full flex-col overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border border-slate-200/80">
+      <div className="relative h-44 w-full overflow-hidden bg-slate-50">
         <img
           src={step.icon}
           alt={`${step.title} illustration`}
-          className="h-full w-full object-contain p-4 transition-transform duration-300 group-hover:scale-105"
+          className="h-full w-full object-contain p-5 transition-transform duration-300 group-hover:scale-105"
           onError={(e) => {
             e.currentTarget.src = `https://placehold.co/400x240/E2E8F0/475569?text=Image+Not+Found`;
           }}
         />
       </div>
       <div className="flex flex-grow flex-col p-6">
-        <h3 className="mb-2 text-xl font-semibold text-slate-800">
+        <h3 className="mb-3 text-xl font-bold text-slate-800">
           {step.title}
         </h3>
-        <p className="mb-5 flex-grow text-sm leading-relaxed text-slate-500">
-          {isTooLong ? displayText : step.description}
+        <p className="flex-grow text-base leading-relaxed text-slate-600">
+          {step.description}
         </p>
-        {isTooLong && (
-          <div className="mt-auto">
-            <button
-              onClick={() => onToggle(index)}
-              className="inline-flex items-center gap-2 text-base font-semibold text-indigo-600 transition-colors hover:text-indigo-800"
-            >
-              {isExpanded ? "Read Less" : "Read More"}
-              {isExpanded ? (
-                <ChevronUp className="h-4 w-4" />
-              ) : (
-                <ChevronDown className="h-4 w-4" />
-              )}
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );
 };
 
 const RecruitmentProcess = () => {
-  const [expandedCards, setExpandedCards] = useState({});
-
-  const toggleExpand = (index) => {
-    setExpandedCards(prev => ({ ...prev, [index]: !prev[index] }));
-  };
-
   const topRowSteps = processSteps.slice(0, 3);
   const bottomRowSteps = processSteps.slice(3);
 
   return (
-    <section className="bg-blue-50 py-16 md:py-28">
+    <section className="bg-blue-50 py-8 md:py-8">
       <div className="container mx-auto px-4">
         <div className="mx-auto mb-16 max-w-3xl text-center">
-          <p className="mb-2 font-semibold uppercase tracking-wider text-indigo-600">
+          <p className="mb-3 font-semibold uppercase tracking-wider text-indigo-700">
             OUR METHODOLOGY
           </p>
-          <h2 className="text-4xl font-bold tracking-tight text-slate-900 md:text-5xl">
+          <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
             Our Recruitment Process
           </h2>
-          <p className="mt-4 text-lg text-slate-600">
+          <p className="mt-5 text-lg text-slate-600">
             We follow a comprehensive, step-by-step process to ensure we deliver the highest quality talent for your organization.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {topRowSteps.map((step, index) => (
-            <ProcessStepCard
-              key={step.id}
-              step={step}
-              index={index}
-              isExpanded={!!expandedCards[index]}
-              onToggle={toggleExpand}
-            />
-          ))}
-        </div>
-
-        {bottomRowSteps.length > 0 && (
-          <div className="mt-8 flex justify-center">
-            <div className="grid w-full grid-cols-1 gap-8 sm:grid-cols-2 lg:w-2/3">
-              {bottomRowSteps.map((step, index) => (
-                <ProcessStepCard
-                  key={step.id}
-                  step={step}
-                  index={index + topRowSteps.length}
-                  isExpanded={!!expandedCards[index + topRowSteps.length]}
-                  onToggle={toggleExpand}
-                />
-              ))}
-            </div>
+        <div className="mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {topRowSteps.map((step) => (
+              <ProcessStepCard key={step.id} step={step} />
+            ))}
           </div>
-        )}
+
+          {bottomRowSteps.length > 0 && (
+            <div className="mt-8 flex justify-center">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:max-w-[70.5%]">
+                {bottomRowSteps.map((step) => (
+                  <ProcessStepCard key={step.id} step={step} />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );

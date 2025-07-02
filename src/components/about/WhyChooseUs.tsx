@@ -4,10 +4,10 @@ import { ArrowRight } from "lucide-react";
 const reasonsData = [
   {
     id: 1,
-    slug: "talent-pool",
+    slug: "deep-industry-expertise",
     icon: "/image/about/image1.png",
-    title: "Access to a Larger Talent Pool",
-    content: "Silver Talent has access to a vast pool of candidates from job portals, social media, and referrals from past hired candidates.",
+    title: "Deep Industry Expertise",
+    content: "With years of experience across a wide range of industries, we know what it takes to find the right talent for your specific needs. Our recruiters are experts in identifying high-calibre candidates for positions across various sectors.",
   },
   {
     id: 2,
@@ -18,10 +18,10 @@ const reasonsData = [
   },
   {
     id: 3,
-    slug: "flexibility-scalability",
-    icon: "/image/about/image3.png",
-    title: "Flexibility and Scalability",
-    content: "Our customized services ensure your business stays agile with the right talent in a constantly evolving environment.",
+    slug: "extensive-talent-network",
+    icon: "/image/about/image1.png",
+    title: "Extensive Talent Network",
+    content: "We have access to a vast network of active and passive candidates. our comprehensive talent pool allows us to quickly identify and engage top professionals who meet your requirements.",
   },
   {
     id: 4,
@@ -64,7 +64,7 @@ const ReasonCard = ({ reason }) => (
 
 const WhyChooseUs = () => {
   return (
-    <section className="bg-blue-100 py-16 md:py-28">
+    <section className="bg-blue-100 py-8 md:py-8">
       <div className="container mx-auto px-4">
         <div className="mx-auto mb-16 max-w-3xl text-center">
           <p className="mb-2 font-semibold uppercase tracking-wider text-indigo-600">
@@ -78,7 +78,7 @@ const WhyChooseUs = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {reasonsData.map((reason) => (
             <ReasonCard key={reason.id} reason={reason} />
           ))}

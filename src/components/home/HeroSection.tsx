@@ -1,49 +1,34 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { MoveRight } from "lucide-react"; // A popular icon library, replace if you use another
+import { MoveRight } from "lucide-react";
 
 const HeroSection = () => {
-  const illustrationUrl = "/image/Home/image1.png";
+  const illustrationUrl = "/image/image1.png";
 
   return (
-    <section className="relative bg-white overflow-hidden">
-      {/* Decorative Background Shape with a subtle gradient */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-y-0 right-0 w-full lg:w-[55%]"
-      >
-        <div
-          className="h-full w-full bg-gradient-to-br bg-white"
-          style={{
-            WebkitClipPath: "path('M0 0 H calc(100% - 60px) Q 100% 50% calc(100% - 60px) 100% H 0 Z')",
-            clipPath: "path('M0 0 H calc(100% - 60px) Q 100% 50% calc(100% - 60px) 100% H 0 Z')",
-          }}
-        ></div>
+    <section className="relative bg-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative grid grid-cols-1 lg:grid-cols-6 items-center gap-12 lg:gap-16 py-8 lg:py-8 ">
 
-      </div>
-
-      <div className="relative container mx-auto px-6 pt-8 pb-20 md:pt-8 md:pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-16 items-center">
-
-          {/* Left Column: Text Content */}
-          <div className="z-10 text-center lg:text-left animate-fade-in">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-indigo-600">
+          <div className="lg:col-span-3 z-10 text-center lg:text-left">
+            <div className="inline-block bg-indigo-100 text-indigo-700 font-semibold py-1 px-3 rounded-full text-sm mb-5">
               Talent Acquisition, Redefined
-            </p>
+            </div>
 
-            <h1 className="text-4xl md:text-5xl xl:text-[3.4rem] font-bold text-slate-900 tracking-tight leading-tight mb-6">
-              Specialists in Acquiring the Best Talent
+            <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tighter mb-6">
+              Specialists at acquiring the best talent for your business
             </h1>
 
-            <p className="text-lg text-slate-600 max-w-xl mx-auto lg:mx-0 mb-12">
-              Your trusted partner in shaping business expansion. We deliver tailor-made hiring solutions to build strong, effective teams for India's leading companies.
+            <p className="text-lg text-slate-600 max-w-xl mx-auto lg:mx-0 mb-10">
+              India’s leading tailor-made solutions for hiring, and your trusted talent partner in shaping business expansion.
               Partner with India’s Leading Recruitment Firm to Build Strong Teams.
+
             </p>
 
             <Button
               asChild
               size="lg"
-              className="inline-flex items-center gap-2 h-14 px-8 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base rounded-lg shadow-lg hover:shadow-indigo-500/40 transition-all duration-300"
+              className="inline-flex items-center gap-2.5 h-12 px-8 bg-[#042c60] hover:bg-indigo-700 text-white font-bold text-base rounded-lg shadow-xl shadow-indigo-500/20 hover:shadow-indigo-500/30 transition-all duration-300 transform hover:-translate-y-0.5"
             >
               <Link to="/contact">
                 Learn More
@@ -52,12 +37,13 @@ const HeroSection = () => {
             </Button>
           </div>
 
-          {/* Right Column: Image */}
-          <div className="relative flex justify-center lg:justify-end animate-slide-in-right">
+          <div className="lg:col-span-3 relative flex justify-center lg:justify-end">
+            <div className="absolute -top-10 -right-10 w-72 h-72 bg-sky-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+            <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-indigo-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
             <img
               src={illustrationUrl}
-              alt="Team collaborating on business growth charts"
-              className="w-full max-w-md lg:max-w-none"
+              alt="Team collaborating on business growth"
+              className="relative w-full max-w-md lg:max-w-none drop-shadow-2xl"
             />
           </div>
 
