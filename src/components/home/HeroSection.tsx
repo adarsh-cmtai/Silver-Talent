@@ -11,7 +11,7 @@ const HeroSection = () => {
         <div className="relative grid grid-cols-1 lg:grid-cols-6 items-center gap-12 lg:gap-16 py-8 lg:py-8 ">
 
           <div className="lg:col-span-3 z-10 text-center lg:text-left">
-            <div className="inline-block bg-indigo-100 text-indigo-700 font-semibold py-1 px-3 rounded-full text-sm mb-5">
+            <div className="inline-block bg-indigo-100 text-[#042c60] font-semibold py-1 px-3 rounded-full text-sm mb-5">
               Talent Acquisition, Redefined
             </div>
 
