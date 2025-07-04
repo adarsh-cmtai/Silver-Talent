@@ -43,7 +43,7 @@ const CertificationSection = () => {
           <img
             src="/image/Home/ISO.png"
             alt="Company Accreditations and Recognitions"
-            className="max-w-4xl w-full h-auto rounded-lg"
+            className="w-full h-auto rounded-lg max-w-6xl"
           />
         </div>
       </div>
