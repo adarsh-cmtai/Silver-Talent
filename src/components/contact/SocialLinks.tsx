@@ -83,11 +83,11 @@ const SocialLinks = () => {
       icon: <FaYoutube />,
       link: "https://youtube.com", // Replace with actual link
     },
-    {
-      name: "Telegram",
-      icon: <FaTelegramPlane />,
-      link: "https://telegram.org", // Replace with actual link
-    },
+    // {
+    //   name: "Telegram",
+    //   icon: <FaTelegramPlane />,
+    //   link: "https://telegram.org", // Replace with actual link
+    // },
   ];
 
   // Define colors based on the image

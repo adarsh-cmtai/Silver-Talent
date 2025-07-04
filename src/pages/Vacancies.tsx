@@ -217,7 +217,7 @@ const Vacancies = () => {
               </span>
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight text-[#fff]">
-              Find Your <span className="text-indigo-700">Next Opportunity</span>
+              Find Your <span className="text-sky-700">Next Opportunity</span>
             </h1>
             <p className="text-lg sm:text-xl text-[#fff] mb-8 leading-relaxed">
               Explore thousands of job openings from leading companies and discover your dream career.
@@ -228,12 +228,12 @@ const Vacancies = () => {
                 <Input
                   type="text" aria-label="Search jobs by title, keywords, or company"
                   placeholder="Job title, keywords, or company"
-                  className="pl-12 pr-4 py-3 bg-white text-gray-900 text-base rounded-lg h-12 w-full shadow-sm focus:ring-2 focus:ring-sky-500 border-gray-300"
+                  className="pl-12 pr-4 py-3 bg-white text-gray-900 text-base rounded-full h-12 w-full shadow-sm focus:ring-2 focus:ring-sky-700 border-gray-300"
                   value={searchQuery} onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearchButtonClick()}
                 />
               </div>
-              <Button size="lg" aria-label="Search jobs" className="bg-indigo-700 hover:bg-sky-600 text-white px-8 rounded-lg h-12 shadow-md" onClick={handleSearchButtonClick} disabled={isLoadingJobs}>
+              <Button size="lg" aria-label="Search jobs" className="bg-sky-700 hover:bg-sky-600 text-white px-8 rounded-full h-12 shadow-md" onClick={handleSearchButtonClick} disabled={isLoadingJobs}>
                 {isLoadingJobs ? <Loader2 className="h-5 w-5 animate-spin" /> : <Search className="h-5 w-5 sm:mr-2" />}
                 <span className="hidden sm:inline">Search</span>
               </Button>
@@ -250,7 +250,7 @@ const Vacancies = () => {
       </div>
 
       <div className="container mx-auto px-4 -mt-10 relative z-10 ">
-        <Card className="p-4 sm:p-6 shadow-xl border-gray-200 rounded-xl bg-white">
+        <Card className="p-4 sm:p-6 shadow-xl border-gray-200 rounded-full bg-white">
           <div className="flex items-center gap-3 mb-4">
             <Filter className="w-5 h-5 text-sky-600" />
             <h3 className="text-lg font-semibold text-gray-800">Filter Your Search</h3>
@@ -259,9 +259,9 @@ const Vacancies = () => {
             <div className="grid md:grid-cols-3 gap-4">{[...Array(3)].map((_,i) => <div key={i} className="h-12 bg-gray-200 rounded-lg animate-pulse"></div>)}</div>
           ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            <Select value={selectedCategory} onValueChange={setSelectedCategory} disabled={isLoadingJobs}><SelectTrigger className="h-12 rounded-lg text-base border-gray-300 focus:ring-sky-500"><SelectValue placeholder="Job Category" /></SelectTrigger><SelectContent>{filterOptions.categories.map((cat) => (<SelectItem key={cat} value={cat} className="text-base">{cat}</SelectItem>))}</SelectContent></Select>
-            <Select value={selectedLocation} onValueChange={setSelectedLocation} disabled={isLoadingJobs}><SelectTrigger className="h-12 rounded-lg text-base border-gray-300 focus:ring-sky-500"><SelectValue placeholder="Location" /></SelectTrigger><SelectContent>{filterOptions.locations.map((loc) => (<SelectItem key={loc} value={loc} className="text-base">{loc}</SelectItem>))}</SelectContent></Select>
-            <Select value={selectedJobType} onValueChange={setSelectedJobType} disabled={isLoadingJobs}><SelectTrigger className="h-12 rounded-lg text-base border-gray-300 focus:ring-sky-500"><SelectValue placeholder="Job Type" /></SelectTrigger><SelectContent>{filterOptions.jobTypes.map((jtype) => (<SelectItem key={jtype} value={jtype} className="text-base">{jtype}</SelectItem>))}</SelectContent></Select>
+            <Select value={selectedCategory} onValueChange={setSelectedCategory} disabled={isLoadingJobs}><SelectTrigger className="h-12 rounded-full text-base border-gray-300 focus:ring-sky-500"><SelectValue placeholder="Job Category" /></SelectTrigger><SelectContent>{filterOptions.categories.map((cat) => (<SelectItem key={cat} value={cat} className="text-base">{cat}</SelectItem>))}</SelectContent></Select>
+            <Select value={selectedLocation} onValueChange={setSelectedLocation} disabled={isLoadingJobs}><SelectTrigger className="h-12 rounded-full text-base border-gray-300 focus:ring-sky-500"><SelectValue placeholder="Location" /></SelectTrigger><SelectContent>{filterOptions.locations.map((loc) => (<SelectItem key={loc} value={loc} className="text-base">{loc}</SelectItem>))}</SelectContent></Select>
+            <Select value={selectedJobType} onValueChange={setSelectedJobType} disabled={isLoadingJobs}><SelectTrigger className="h-12 rounded-full text-base border-gray-300 focus:ring-sky-500"><SelectValue placeholder="Job Type" /></SelectTrigger><SelectContent>{filterOptions.jobTypes.map((jtype) => (<SelectItem key={jtype} value={jtype} className="text-base">{jtype}</SelectItem>))}</SelectContent></Select>
           </div>
           )}
         </Card>

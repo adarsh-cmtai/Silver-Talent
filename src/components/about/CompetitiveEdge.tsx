@@ -5,28 +5,28 @@ const advantagesData = [
   {
     id: 1,
     slug: "talent-pool-access",
-    image: "/image/about/image1.png", // Replace with your image
+    image: "/image/about/talent-pool.png", // Replace with your image
     title: "Access to a Larger Talent Pool",
     content: "With one of the largest and most refined candidate databases in the country, we offer unmatched access to top-tier, experienced professionals.",
   },
   {
     id: 2,
     slug: "recruitment-speed",
-    image: "/image/about/image2.png", // Replace with your image
+    image: "/image/about/recruitment speed.jpg", // Replace with your image
     title: "Speed in Recruitment",
     content: "Our average turnaround time for providing a high-quality shortlist is just 24 to 48 hours, depending on the role's complexity.",
   },
   {
     id: 3,
     slug: "custom-hiring-solutions",
-    image: "/image/about/image3.png", // Replace with your image
+    image: "/image/about/custome hiring.jpg", // Replace with your image
     title: "Customized Hiring Solutions",
     content: "We leverage proprietary assessment tools to create tailored hiring solutions, ensuring the right fit for every role.",
   },
   {
     id: 4,
     slug: "quality-and-retention",
-    image: "/image/about/image4.png", // Replace with your image
+    image: "/image/about/quality and retention.jpg", // Replace with your image
     title: "Proven Quality and Retention",
     content: "Over 85% of our key clients are MNCs, showcasing our consistency, quality, and the long-term success of our hires.",
   },
@@ -46,7 +46,7 @@ const AdvantageCard = ({ advantage }) => (
       />
     </div>
     <div className="flex flex-grow flex-col p-6">
-      <h3 className="mb-2 text-xl font-semibold text-slate-800">
+      <h3 className="mb-2 text-xl font-semibold text-slate-800 text-center">
         {advantage.title}
       </h3>
       <p className="mb-5 flex-grow text-sm leading-relaxed text-slate-500">

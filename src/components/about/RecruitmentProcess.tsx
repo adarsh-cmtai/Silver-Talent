@@ -47,7 +47,7 @@ const ProcessStepCard = ({ step }) => {
         />
       </div>
       <div className="flex flex-grow flex-col p-6">
-        <h3 className="mb-3 text-xl font-bold text-slate-800">
+        <h3 className="mb-3 text-xl font-bold text-slate-800 text-center">
           {step.title}
         </h3>
         <p className="flex-grow text-base leading-relaxed text-slate-600">

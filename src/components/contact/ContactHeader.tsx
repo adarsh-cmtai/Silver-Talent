@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const IllustrationPlaceholder = () => (
   <div className="w-full max-w-lg mx-auto">
@@ -59,9 +60,11 @@ const ContactHeader = () => {
               </p>
             </div>
             <div className="mt-10 animate-on-scroll">
+              <Link to="/contact" state={{ scrollToForm: true }}>
               <button className="bg-[#042c60] hover:bg-sky-700 text-white font-bold py-3 px-8 rounded-full text-base shadow-lg hover:shadow-xl shadow-sky-200 transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-sky-300">
-                Get Started
+                Contact Us
               </button>
+              </Link>
             </div>
           </div>
 

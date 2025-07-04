@@ -197,7 +197,7 @@ const BlogsPage = () => {
         <div className="container mx-auto px-4 py-14 sm:py-14 relative">
           <div className="max-w-3xl">
             <div className="inline-block px-3 py-1.5 bg-white/10 rounded-full backdrop-blur-sm mb-6">
-              <span className="text-xs sm:text-sm font-medium">Latest Insights & Trends</span>
+              <span className="text-xs sm:text-sm font-extrabold">Latest Insights & Trends</span>
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight text-[#fff]">
               Talent & HR <span className="text-[#fff]">Solutions Blog</span>
@@ -210,14 +210,14 @@ const BlogsPage = () => {
       </div>
 
       <div className="container mx-auto px-4 -mt-12 sm:-mt-20 relative z-10">
-        <Card className="p-4 sm:p-6 bg-white shadow-xl border-gray-200 rounded-xl">
+        <Card className="p-4 sm:p-6 bg-white shadow-xl border-gray-200 rounded-full">
           <div className="flex flex-col md:flex-row gap-4 items-center">
             <div className="flex-1 relative w-full">
               <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
               <Input
                 type="text"
                 placeholder="Search articles by title, keyword, tag..."
-                className="w-full pl-11 pr-4 py-2.5 h-11 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 text-base"
+                className="w-full pl-11 pr-4 py-2.5 h-11 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-sky-500 text-base"
                 value={searchTerm}
                 onChange={handleSearchChange}
                 aria-label="Search blog articles"
@@ -228,7 +228,7 @@ const BlogsPage = () => {
                 <div className="h-11 bg-gray-200 rounded-lg animate-pulse w-full md:w-52"></div>
               ) : (
                 <Select value={selectedCategorySlug} onValueChange={handleCategoryChange}>
-                  <SelectTrigger className="w-full md:w-52 h-11 border-gray-300 rounded-lg text-base focus:ring-sky-500">
+                  <SelectTrigger className="w-full md:w-52 h-11 border-gray-300 rounded-3xl text-base focus:ring-sky-500">
                     <SelectValue placeholder="Filter by Category" />
                   </SelectTrigger>
                   <SelectContent>

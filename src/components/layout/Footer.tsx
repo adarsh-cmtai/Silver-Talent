@@ -1,16 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/sonner";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Facebook, Linkedin, Twitter, Mail, Phone, MapPin, Send, Instagram } from "lucide-react";
+import { Facebook, Linkedin, Twitter, Mail, Phone, MapPin, Instagram, Youtube, Clock, CalendarDays } from "lucide-react";
 
 const Footer = () => {
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    toast.success("Thank you for subscribing to our newsletter!");
-  };
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -97,6 +89,15 @@ const Footer = () => {
                 <span className="sr-only">Instagram</span>
                 <Instagram className="h-5 w-5" />
               </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                href="#"
+                className="text-gray-200 hover:text-sky-600 transition-colors bg-gray-800 p-2 rounded-full hover:bg-gray-700"
+              >
+                <span className="sr-only">Youtube</span>
+                <Youtube className="h-5 w-5" />
+              </motion.a>
             </div>
           </motion.div>
 
@@ -113,7 +114,7 @@ const Footer = () => {
                   transition={{ duration: 0.2 }}
                 >
                   <a
-                    href={link === 'Home'? "/" : `/${link.toLowerCase().replace(' ', '-')}`}
+                    href={link === 'Home' ? "/" : `/${link.toLowerCase().replace(' ', '-')}`}
                     className="text-gray-200 hover:text-sky-600 transition-colors flex items-center gap-2 group"
                   >
                     <span className="h-1 w-1 bg-sky-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
@@ -137,7 +138,7 @@ const Footer = () => {
                   transition={{ duration: 0.2 }}
                 >
                   <Link
-                    to={`/services#${service.id}`}
+                    to={`/services`}
                     state={{ expandedServiceId: service.id }}
                     className="text-gray-200 hover:text-sky-600 transition-colors flex items-center gap-2 group"
                   >
@@ -159,21 +160,21 @@ const Footer = () => {
                 whileHover={{ x: 5 }}
                 className="flex items-start gap-3 text-gray-200"
               >
-                <MapPin className="h-5 w-5 text-sky-600 mt-1" />
+                <MapPin className="h-5 w-5 text-sky-600 mt-1 flex-shrink-0" />
                 <span>123 Business Avenue, Corporate Park, Mumbai, 400001</span>
               </motion.li>
               <motion.li
                 whileHover={{ x: 5 }}
                 className="flex items-start gap-3 text-gray-200"
               >
-                <Phone className="h-5 w-5 text-sky-600 mt-1" />
+                <Phone className="h-5 w-5 text-sky-600 mt-1 flex-shrink-0" />
                 <span>+91 9250051516</span>
               </motion.li>
               <motion.li
                 whileHover={{ x: 5 }}
                 className="flex items-start gap-3 text-gray-200"
               >
-                <Mail className="h-5 w-5 text-sky-600 mt-1" />
+                <Mail className="h-5 w-5 text-sky-600 mt-1 flex-shrink-0" />
                 <span>hr@silvertalent.in</span>
               </motion.li>
             </ul>
@@ -182,30 +183,24 @@ const Footer = () => {
           <motion.div variants={itemVariants}>
             <h3 className="text-xl font-bold mb-4 text-white flex items-center gap-2">
               <span className="h-8 w-1 bg-sky-600 rounded-full"></span>
-              Newsletter
+              Working Hours
             </h3>
-            <p className="mb-6 text-gray-200 leading-relaxed">
-              Subscribe to get the latest updates on recruitment trends.
-            </p>
-            <form onSubmit={handleSubscribe} className="flex flex-col space-y-3">
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <Input
-                  type="email"
-                  placeholder="Your email address"
-                  required
-                  className="bg-gray-800/50 border-gray-700 text-white placeholder:text-gray-400 focus:border-sky-600 focus:ring-sky-600/20 transition-all duration-300"
-                />
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <Button
-                  type="submit"
-                  className="bg-sky-600 hover:bg-sky-700 text-white font-semibold w-full flex items-center justify-center gap-2 transition-all duration-300"
-                >
-                  <Send className="h-4 w-4" />
-                  Subscribe
-                </Button>
-              </motion.div>
-            </form>
+            <ul className="space-y-4">
+              <motion.li
+                whileHover={{ x: 5 }}
+                className="flex items-start gap-3 text-gray-200"
+              >
+                <CalendarDays className="h-5 w-5 text-sky-600 mt-1 flex-shrink-0" />
+                <span>Monday To Saturday</span>
+              </motion.li>
+              <motion.li
+                whileHover={{ x: 5 }}
+                className="flex items-start gap-3 text-gray-200"
+              >
+                <Clock className="h-5 w-5 text-sky-600 mt-1 flex-shrink-0" />
+                <span>9.30 AM to 6.30 PM</span>
+              </motion.li>
+            </ul>
           </motion.div>
         </motion.div>
 

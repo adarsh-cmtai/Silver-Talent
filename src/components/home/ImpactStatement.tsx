@@ -27,7 +27,7 @@ const ImpactStatement = () => {
   }, []);
 
   return (
-    <section className="relative bg-[#091e42] text-white py-16 md:py-16 overflow-hidden">
+    <section className="relative bg-[#042c60] text-white py-16 md:py-16 overflow-hidden">
       {/* Subtle background grid pattern */}
       <div 
         aria-hidden="true" 

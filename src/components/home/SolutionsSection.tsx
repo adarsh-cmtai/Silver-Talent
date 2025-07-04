@@ -74,7 +74,7 @@ const SolutionCard = ({ solution }: { solution: Solution }) => (
       />
     </div>
     <div className="flex flex-grow flex-col p-6">
-      <h3 className="mb-2 text-xl font-semibold text-slate-800">
+      <h3 className="mb-2 text-xl font-semibold text-slate-800 text-center">
         {solution.title}
       </h3>
       <p className="mb-5 flex-grow text-sm leading-relaxed text-slate-500">

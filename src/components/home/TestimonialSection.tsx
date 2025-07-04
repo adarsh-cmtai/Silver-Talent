@@ -144,7 +144,7 @@ const TestimonialSection = () => {
         <div className="mt-16 text-center">
           <a
             href="/contact"
-            className="inline-block bg-[#042c60] text-white font-semibold px-10 py-4 text-base rounded-md shadow-lg transition-colors duration-300"
+            className="inline-block bg-[#042c60] text-white text-2xl font-extrabold px-10 py-4 rounded-md shadow-lg transition-colors duration-300"
             style={{ clipPath: 'polygon(0% 0%, calc(100% - 18px) 0%, 100% 50%, calc(100% - 18px) 100%, 0% 100%)' }}
           >
             Get in touch and chat with us

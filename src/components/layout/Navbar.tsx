@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Mail, Phone, Briefcase, Home, Info, Newspaper, PhoneCall, LogIn, Twitter, Facebook, Instagram, Linkedin, Building2 } from "lucide-react";
+import { Menu, X, Mail, Phone, Briefcase, Home, Info, Newspaper, PhoneCall, LogIn, Twitter, Facebook, Instagram, Linkedin, Building2, Youtube } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -18,6 +18,7 @@ const socialLinks = [
   { href: "https://facebook.com", icon: Facebook },
   { href: "https://instagram.com", icon: Instagram },
   { href: "https://linkedin.com", icon: Linkedin },
+  { href: "https://youtube.com", icon: Youtube },
 ];
 
 
@@ -61,18 +62,18 @@ const Navbar = () => {
         >
           <div className="container mx-auto px-4 flex justify-between items-center py-2 text-xs sm:text-sm">
             <div className="flex items-center gap-x-4">
-              <span>For Employer Enquiry :</span>
+              <span className="font-semibold">Employer Enquiry :</span>
               <a href="mailto:hr@silvertalent.in" className="flex items-center gap-1.5 hover:text-sky-400 transition-colors">
                 <Mail size={15} />
-                <span>hr@silvertalent.in</span>
+                <span className="font-semibold">hr@silvertalent.in</span>
               </a>
               <a href="tel:+919250051516" className="hidden sm:flex items-center gap-1.5 hover:text-sky-400 transition-colors">
                 <Phone size={15} />
-                <span>+91-9250051516</span>
+                <span className="font-semibold">+91-9250051516</span>
               </a>
             </div>
             <div className="hidden md:flex items-center gap-x-4">
-              <span className="font-medium">Follow Us:</span>
+              <span className=" font-semibold">Follow Us:</span>
               <div className="flex items-center gap-x-3">
                 {socialLinks.map((social, index) => (
                   <a
@@ -80,7 +81,7 @@ const Navbar = () => {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-sky-400 transition-colors"
+                    className="hover:text-sky-400 transition-colors font-semibold"
                   >
                     <social.icon size={16} />
                   </a>
@@ -135,7 +136,7 @@ const Navbar = () => {
 
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button asChild className={`${buttonStyles.primary} ${buttonStyles.common}`}>
-                  <Link to="/blog">
+                  <Link to="/contact" state={{ scrollToForm: true }}>
                     Employer
                   </Link>
                 </Button>

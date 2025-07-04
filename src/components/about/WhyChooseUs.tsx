@@ -5,7 +5,7 @@ const reasonsData = [
   {
     id: 1,
     slug: "deep-industry-expertise",
-    icon: "/image/about/image1.png",
+    icon: "/image/about/image3.png",
     title: "Deep Industry Expertise",
     content: "With years of experience across a wide range of industries, we know what it takes to find the right talent for your specific needs. Our recruiters are experts in identifying high-calibre candidates for positions across various sectors.",
   },
@@ -19,7 +19,7 @@ const reasonsData = [
   {
     id: 3,
     slug: "extensive-talent-network",
-    icon: "/image/about/image1.png",
+    icon: "/image/about/extensive.jpg",
     title: "Extensive Talent Network",
     content: "We have access to a vast network of active and passive candidates. our comprehensive talent pool allows us to quickly identify and engage top professionals who meet your requirements.",
   },
@@ -46,7 +46,7 @@ const ReasonCard = ({ reason }) => (
       />
     </div>
     <div className="flex flex-grow flex-col p-6">
-      <h3 className="mb-2 text-xl font-semibold text-slate-800">
+      <h3 className="mb-2 text-xl font-semibold text-slate-800 text-center">
         {reason.title}
       </h3>
       <p className="mb-5 flex-grow text-sm leading-relaxed text-slate-500">

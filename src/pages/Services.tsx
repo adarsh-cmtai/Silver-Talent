@@ -175,7 +175,7 @@ const Services = () => {
                 </Button>
               </Link>
 
-              <Link to="/contact">
+              <Link to="/contact" state={{ scrollToForm: true }}>
                 <Button size="lg" variant="outline" className="border-white text-sky-600 hover:bg-white/10">
                   Contact Us
                 </Button>
@@ -217,18 +217,18 @@ const Services = () => {
                     />
                   </div>
                   <div className={`lg:col-span-7 w-full ${isReversed ? "lg:order-1" : "lg:order-2"}`}>
-                    <div className="flex items-start mb-5">
+                    <div className="flex items-start">
                       <div className="bg-sky-100 p-4 rounded-xl mr-5 flex-shrink-0">
                         <IconComponent className="w-8 h-8 text-sky-600" />
                       </div>
                       <div>
-                        <h3 className="text-3xl font-bold text-gray-900">{service.title}</h3>
+                        <h3 className="text-3xl font-bold text-gray-900 mb-5">{service.title}</h3>
+                        <div className="space-y-4 text-gray-700 text-lg leading-relaxed">
+                          {service.content.map((paragraph, pIndex) => (
+                            <p key={pIndex}>{paragraph}</p>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                    <div className="space-y-4 text-gray-700 text-lg leading-relaxed">
-                      {service.content.map((paragraph, pIndex) => (
-                        <p key={pIndex}>{paragraph}</p>
-                      ))}
                     </div>
                   </div>
                 </div>

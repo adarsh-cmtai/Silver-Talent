@@ -31,20 +31,20 @@ const AboutHero = () => {
               With one of the largest and most refined candidate databases in the country, we leverage <b>AI</b> and <b>proprietary assessment tools</b> to create customized hiring solutions, ensuring targeted sourcing and successful placements.
             </p>
 
-            <Link to="/contact">
+            <Link to="/contact" state={{ scrollToForm: true }}>
               <Button size="lg" className="group bg-[#042c60] hover:bg-sky-700 text-white font-bold px-8 py-2 rounded-xl shadow-lg shadow-sky-500/20 hover:shadow-xl hover:shadow-sky-500/30 transition-all duration-300 text-lg">
-                Learn More
+                Contact Us
                 <MoveRight className="ml-3 h-6 w-6 transition-transform duration-300 group-hover:translate-x-1.5" />
               </Button>
             </Link>
           </div>
 
           <div className="animate-fade-in-right">
-            <div className="relative p-3 bg-white rounded-2xl shadow-2xl shadow-slate-900/10">
+            <div className="relative p-3 bg-white rounded-2xl shadow-slate-900/10">
               <img
                 src="/image/Home/image1.png"
                 alt="HR recruitment collaboration"
-                className="w-full h-auto rounded-xl max-h-[500px] object-cover"
+                className="w-full rounded-xl max-h-[500px] h-[450px] object-cover"
               />
             </div>
           </div>
