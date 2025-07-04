@@ -10,7 +10,6 @@ const HeroSection = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative grid grid-cols-1 lg:grid-cols-6 items-center gap-12 lg:gap-16 py-8 lg:py-8 ">
           <div className="lg:col-span-3 z-10 text-center lg:text-left">
-<<<<<<< HEAD
             <div className="inline-block bg-sky-200 text-sky-700 font-semibold py-1 px-3 rounded-full text-sm mb-5">
               Talent Acquisition, Redefined
             </div>
@@ -20,15 +19,6 @@ const HeroSection = () => {
                 Specialists at acquiring the best talent for your business. Join us as we revolutionize talent acquisition.
               </h1>
             </div>
-=======
-            <div className="inline-block bg-indigo-100 text-[#042c60] font-semibold py-1 px-3 rounded-full text-sm mb-5">
-              Talent Acquisition, Redefined
-            </div>
-
-            <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tighter mb-6">
-              Specialists at acquiring the best talent for your business. Join us as we revolutionize talent acquisition
-            </h1>
->>>>>>> 7b9974fd77be94d1f8d2eb228f9c56cdc8077edd
 
             <p className="text-lg text-slate-600 max-w-xl mx-auto lg:mx-0 mb-10">
               India’s leading tailor-made solutions for hiring, and your trusted talent partner in shaping business expansion.
@@ -40,11 +30,7 @@ const HeroSection = () => {
               size="lg"
               className="inline-flex items-center gap-2.5 h-12 px-8 bg-[#042c60] hover:bg-indigo-700 text-white font-bold text-base rounded-lg shadow-xl shadow-indigo-500/20 hover:shadow-indigo-500/30 transition-all duration-300 transform hover:-translate-y-0.5"
             >
-<<<<<<< HEAD
               <Link to={{ pathname: "/contact" }} state={{ scrollToForm: true }}>
-=======
-              <Link to="/contact">
->>>>>>> 7b9974fd77be94d1f8d2eb228f9c56cdc8077edd
                 Contact Us
                 <MoveRight className="h-5 w-5" />
               </Link>
