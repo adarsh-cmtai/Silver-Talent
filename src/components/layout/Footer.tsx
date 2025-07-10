@@ -112,7 +112,7 @@ const Footer = () => {
               Quick Links
             </h3>
             <ul className="space-y-3">
-              {['Home', 'About', 'Services', 'Blog', 'Contact'].map((link) => (
+              {['Home', 'About', 'Services', 'Blog','Vacancies', 'Contact'].map((link) => (
                 <motion.li
                   key={link}
                   whileHover={{ x: 5 }}
