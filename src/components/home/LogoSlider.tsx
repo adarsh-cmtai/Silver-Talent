@@ -4,7 +4,7 @@ import { Briefcase, ShieldCheck } from "lucide-react";
 const logos = [
     { id: 1, name: "Cushman & Wakefield", url: "https://logo.clearbit.com/cushwake.com" },
     { id: 2, name: "CB Richard Ellis", url: "https://logo.clearbit.com/cbre.com" },
-    { id: 3, name: "Zepto", url: "https://logo.clearbit.com/zeptonow.com" },
+    { id: 3, name: "Zepto", url: "https://thehardcopy.co/wp-content/uploads/Zepto-Featured-Image-Option-2-768x515.png" },
     { id: 4, name: "Bigbasket", url: "https://logo.clearbit.com/bigbasket.com" },
     { id: 5, name: "Ola Cabs", url: "https://logo.clearbit.com/olacabs.com" },
     { id: 6, name: "Nobroker", url: "https://logo.clearbit.com/nobroker.in" },

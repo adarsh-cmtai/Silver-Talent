@@ -1,7 +1,8 @@
 import React from "react";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Link } from "react-router-dom";
 
 const initialTestimonials = [
   {
@@ -61,7 +62,7 @@ function NextArrow(props) {
       className={`${className} absolute top-1/2 -right-4 md:-right-10 transform -translate-y-1/2 z-10 cursor-pointer`}
       onClick={onClick}
     >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black bg-white rounded-full shadow-md p-1 hover:bg-gray-100" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black bg-white rounded-full shadow-md p-1 hover:bg-gray-100" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
     </div>
   );
 }
@@ -73,7 +74,7 @@ function PrevArrow(props) {
       className={`${className} absolute top-1/2 -left-4 md:-left-10 transform -translate-y-1/2 z-10 cursor-pointer`}
       onClick={onClick}
     >
-       <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black bg-white rounded-full shadow-md p-1 hover:bg-gray-100" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black bg-white rounded-full shadow-md p-1 hover:bg-gray-100" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
     </div>
   );
 }
@@ -96,7 +97,7 @@ const TestimonialSection = () => {
       { breakpoint: 768, settings: { slidesToShow: 1 } },
     ],
   };
-  
+
   return (
     <section className="py-8 bg-blue-50 relative">
       <div className="container mx-auto px-4">
@@ -144,7 +145,7 @@ const TestimonialSection = () => {
         <div className="mt-16 text-center">
           <a
             href="/contact"
-            className="inline-block bg-[#042c60] text-white text-2xl font-extrabold px-10 py-4 rounded-md shadow-lg transition-colors duration-300"
+            className="inline-block bg-[#0078D4] text-black text-2xl font-extrabold px-10 py-4 rounded-md shadow-lg transition-colors duration-300"
             style={{ clipPath: 'polygon(0% 0%, calc(100% - 18px) 0%, 100% 50%, calc(100% - 18px) 100%, 0% 100%)' }}
           >
             Get in touch and chat with us
@@ -153,11 +154,15 @@ const TestimonialSection = () => {
       </div>
 
       <div className="fixed right-0 top-1/2 transform -translate-y-1/2 z-50 hidden md:block">
-        <div className="bg-yellow-400 text-black font-bold px-2 py-4 mb-1 cursor-pointer shadow-lg hover:bg-yellow-500 transition-colors" style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}>
-          QUERY NOW
-        </div>
+        <Link to={{ pathname: "/contact" }} state={{ scrollToForm: true }}>
+          <div className="bg-yellow-400 text-black font-bold px-2 py-4 mb-1 cursor-pointer shadow-lg hover:bg-yellow-500 transition-colors" style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}>
+            QUERY NOW
+          </div>
+        </Link>
         <div className="bg-blue-600 text-white font-bold px-2 py-4 cursor-pointer shadow-lg hover:bg-blue-700 transition-colors flex items-center justify-center" style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}>
-          <span className="mr-1">CALL NOW?</span>
+          <a href="tel:+919250051516" className="mr-1 text-white">
+            CALL NOW?
+          </a>
           <svg className="w-4 h-4 inline-block transform rotate-[-90deg]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
           </svg>

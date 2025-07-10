@@ -32,7 +32,7 @@ const AboutHero = () => {
             </p>
 
             <Link to="/contact" state={{ scrollToForm: true }}>
-              <Button size="lg" className="group bg-[#042c60] hover:bg-sky-700 text-white font-bold px-8 py-2 rounded-xl shadow-lg shadow-sky-500/20 hover:shadow-xl hover:shadow-sky-500/30 transition-all duration-300 text-lg">
+              <Button size="lg" className="group bg-[#0078D4] hover:bg-sky-700 text-white font-bold px-8 py-2 rounded-xl shadow-lg shadow-sky-500/20 hover:shadow-xl hover:shadow-sky-500/30 transition-all duration-300 text-lg">
                 Contact Us
                 <MoveRight className="ml-3 h-6 w-6 transition-transform duration-300 group-hover:translate-x-1.5" />
               </Button>

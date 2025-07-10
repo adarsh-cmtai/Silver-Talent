@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Facebook, Linkedin, Twitter, Mail, Phone, MapPin, Instagram, Youtube, Clock, CalendarDays } from "lucide-react";
+import { FaXTwitter } from 'react-icons/fa6';
 
 const Footer = () => {
   const containerVariants = {
@@ -46,9 +47,13 @@ const Footer = () => {
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-12"
         >
           <motion.div variants={itemVariants} className="lg:col-span-1">
-            <h3 className="text-2xl font-bold mb-4 text-white">
-              Silver Talent<span className="text-sky-600">Services</span>
-            </h3>
+            <div className="mb-4 leading-tight">
+              <h3 className="text-2xl font-bold text-white inline-block relative">
+                Silver Talent
+                <span className="block text-sky-600 text-center w-full">Services</span>
+              </h3>
+            </div>
+
             <p className="mb-6 text-gray-200 leading-relaxed">
               Empowering businesses with exceptional recruitment solutions.
             </p>
@@ -69,7 +74,7 @@ const Footer = () => {
                 className="text-gray-200 hover:text-sky-600 transition-colors bg-gray-800 p-2 rounded-full hover:bg-gray-700"
               >
                 <span className="sr-only">Twitter</span>
-                <Twitter className="h-5 w-5" />
+                <FaXTwitter className="h-5 w-5" />
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.1, y: -2 }}
@@ -161,7 +166,7 @@ const Footer = () => {
                 className="flex items-start gap-3 text-gray-200"
               >
                 <MapPin className="h-5 w-5 text-sky-600 mt-1 flex-shrink-0" />
-                <span>123 Business Avenue, Corporate Park, Mumbai, 400001</span>
+                <span>403 A, Ocean Plaza, P - 5, Sector 18, Noida - 201301</span>
               </motion.li>
               <motion.li
                 whileHover={{ x: 5 }}

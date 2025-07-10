@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   Search, MapPin, Briefcase, Building2, Clock, DollarSign, Star,
   Filter, ArrowRight, BookmarkPlus, Share2, Loader2, AlertTriangle,
+  Coins,
 } from "lucide-react";
 import { toast, Toaster } from "sonner";
 import { ApplyJobModal } from "@/components/ApplyJobModal";
@@ -23,6 +24,7 @@ export interface JobLogo {
   public_id?: string;
   url: string;
 }
+
 
 export interface Job {
   _id: string;
@@ -196,7 +198,7 @@ const Vacancies = () => {
     }
   };
 
-  const popularSearches: string[] = ["Software Engineer", "React", "Product Manager", "UX Design", "Data Science", "Remote"];
+  const popularSearches: string[] = ["Sales", "Marketing", "Human Resource", "Finance", "Software", "Manufacturing", "Operations", "Others"];
 
   const handleApplyNowClick = (job: Job) => {
     setSelectedJobForApplication(job);
@@ -206,7 +208,7 @@ const Vacancies = () => {
   return (
     <div className="min-h-screen bg-slate-50 selection:bg-sky-200 selection:text-sky-900">
       <Toaster richColors position="top-center" duration={3000} />
-      
+
       <div className="relative overflow-hidden bg-[#042c60] text-white">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-10 mix-blend-soft-light"></div>
         <div className="container mx-auto px-4 py-14 sm:py-14 md:py-14 relative">
@@ -217,7 +219,7 @@ const Vacancies = () => {
               </span>
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight text-[#fff]">
-              Find Your <span className="text-sky-700">Next Opportunity</span>
+              Find Your <span className="text-indigo-500">Next Opportunity</span>
             </h1>
             <p className="text-lg sm:text-xl text-[#fff] mb-8 leading-relaxed">
               Explore thousands of job openings from leading companies and discover your dream career.
@@ -256,13 +258,13 @@ const Vacancies = () => {
             <h3 className="text-lg font-semibold text-gray-800">Filter Your Search</h3>
           </div>
           {isLoadingFilters ? (
-            <div className="grid md:grid-cols-3 gap-4">{[...Array(3)].map((_,i) => <div key={i} className="h-12 bg-gray-200 rounded-lg animate-pulse"></div>)}</div>
+            <div className="grid md:grid-cols-3 gap-4">{[...Array(3)].map((_, i) => <div key={i} className="h-12 bg-gray-200 rounded-lg animate-pulse"></div>)}</div>
           ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            <Select value={selectedCategory} onValueChange={setSelectedCategory} disabled={isLoadingJobs}><SelectTrigger className="h-12 rounded-full text-base border-gray-300 focus:ring-sky-500"><SelectValue placeholder="Job Category" /></SelectTrigger><SelectContent>{filterOptions.categories.map((cat) => (<SelectItem key={cat} value={cat} className="text-base">{cat}</SelectItem>))}</SelectContent></Select>
-            <Select value={selectedLocation} onValueChange={setSelectedLocation} disabled={isLoadingJobs}><SelectTrigger className="h-12 rounded-full text-base border-gray-300 focus:ring-sky-500"><SelectValue placeholder="Location" /></SelectTrigger><SelectContent>{filterOptions.locations.map((loc) => (<SelectItem key={loc} value={loc} className="text-base">{loc}</SelectItem>))}</SelectContent></Select>
-            <Select value={selectedJobType} onValueChange={setSelectedJobType} disabled={isLoadingJobs}><SelectTrigger className="h-12 rounded-full text-base border-gray-300 focus:ring-sky-500"><SelectValue placeholder="Job Type" /></SelectTrigger><SelectContent>{filterOptions.jobTypes.map((jtype) => (<SelectItem key={jtype} value={jtype} className="text-base">{jtype}</SelectItem>))}</SelectContent></Select>
-          </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <Select value={selectedCategory} onValueChange={setSelectedCategory} disabled={isLoadingJobs}><SelectTrigger className="h-12 rounded-full text-base border-gray-300 focus:ring-sky-500"><SelectValue placeholder="Job Category" /></SelectTrigger><SelectContent>{filterOptions.categories.map((cat) => (<SelectItem key={cat} value={cat} className="text-base">{cat}</SelectItem>))}</SelectContent></Select>
+              <Select value={selectedLocation} onValueChange={setSelectedLocation} disabled={isLoadingJobs}><SelectTrigger className="h-12 rounded-full text-base border-gray-300 focus:ring-sky-500"><SelectValue placeholder="Location" /></SelectTrigger><SelectContent>{filterOptions.locations.map((loc) => (<SelectItem key={loc} value={loc} className="text-base">{loc}</SelectItem>))}</SelectContent></Select>
+              <Select value={selectedJobType} onValueChange={setSelectedJobType} disabled={isLoadingJobs}><SelectTrigger className="h-12 rounded-full text-base border-gray-300 focus:ring-sky-500"><SelectValue placeholder="Job Type" /></SelectTrigger><SelectContent>{filterOptions.jobTypes.map((jtype) => (<SelectItem key={jtype} value={jtype} className="text-base">{jtype}</SelectItem>))}</SelectContent></Select>
+            </div>
           )}
         </Card>
       </div>
@@ -303,10 +305,13 @@ const Vacancies = () => {
                   <div className="flex flex-wrap gap-x-4 gap-y-2 mb-4 text-xs text-gray-500">
                     <span className="flex items-center"><MapPin className="w-3.5 h-3.5 mr-1" />{job.location}</span>
                     <span className="flex items-center"><Briefcase className="w-3.5 h-3.5 mr-1" />{job.type}</span>
-                    <span className="flex items-center"><DollarSign className="w-3.5 h-3.5 mr-1" />{job.salary}</span>
+                    <span className="flex items-center">
+                      <span className="w-4 h-4 text-sm font-semibold">₹</span>
+                      {job.salary}
+                    </span>
                   </div>
                   <p className="text-gray-600 text-sm leading-relaxed line-clamp-2 mb-4">{job.description}</p>
-                  
+
                   <div className="flex-grow"></div>
 
                   <div className="flex flex-wrap gap-1.5 mb-5">
@@ -314,9 +319,9 @@ const Vacancies = () => {
                     {job.skills?.length > 4 && <Badge variant="outline" className="bg-slate-100 text-slate-700 text-xs px-2 py-0.5 font-normal rounded">+{job.skills.length - 4} more</Badge>}
                   </div>
                   <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                     <div className="flex items-center text-xs text-gray-500">
-                        <Clock className="w-3 h-3 mr-1" />{formatDatePosted(job.postedDate)}
-                     </div>
+                    <div className="flex items-center text-xs text-gray-500">
+                      <Clock className="w-3 h-3 mr-1" />{formatDatePosted(job.postedDate)}
+                    </div>
                     <Button size="sm" className="bg-[#042c60] hover:bg-indigo-700 text-white rounded-md text-sm py-1.5 px-4 shadow-sm" onClick={() => handleApplyNowClick(job)}>
                       Apply Now <ArrowRight className="ml-1.5 h-4 w-4" />
                     </Button>

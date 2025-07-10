@@ -11,7 +11,7 @@ import TestimonialSection from "@/components/home/TestimonialSection";
 
 const Index = () => {
   useEffect(() => {
-    document.title = "Silver Talent | Recruiting Excellence";
+    document.title = "Silver Talent | Recruiting Expert";
     
     const handleScroll = () => {
       const animateElements = document.querySelectorAll('.animate-on-scroll');
@@ -22,10 +22,6 @@ const Index = () => {
         if (elementTop < window.innerHeight - elementVisible) {
           element.classList.add('animated');
         }
-        // Optional: remove 'animated' if element scrolls out of view upwards
-        // else if (elementTop > window.innerHeight) { 
-        //   element.classList.remove('animated');
-        // }
       });
     };
 

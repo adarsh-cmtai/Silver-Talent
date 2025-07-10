@@ -59,16 +59,6 @@ const SocialLinks = () => {
 
   const socialMediaLinks = [
     {
-      name: "Facebook",
-      icon: <FaFacebookF />,
-      link: "https://facebook.com", // Replace with actual link
-    },
-    {
-      name: "Instagram",
-      icon: <FaInstagram />,
-      link: "https://instagram.com", // Replace with actual link
-    },
-    {
       name: "LinkedIn",
       icon: <FaLinkedinIn />,
       link: "https://linkedin.com", // Replace with actual link
@@ -77,6 +67,16 @@ const SocialLinks = () => {
       name: "X (Twitter)",
       icon: <FaXTwitter />,
       link: "https://twitter.com", // Replace with actual link
+    },
+    {
+      name: "Facebook",
+      icon: <FaFacebookF />,
+      link: "https://facebook.com", // Replace with actual link
+    },
+    {
+      name: "Instagram",
+      icon: <FaInstagram />,
+      link: "https://instagram.com", // Replace with actual link
     },
     {
       name: "YouTube",
@@ -91,7 +91,7 @@ const SocialLinks = () => {
   ];
 
   // Define colors based on the image
-  const navyColor = "#4338CA"; // Example: Tailwind's indigo-800 or a custom navy
+  const navyColor = "#0078D4"; // Example: Tailwind's indigo-800 or a custom navy
   const yellowColor = "#042c60"; // Example: Tailwind's amber-500 or a custom gold/yellow
 
   return (

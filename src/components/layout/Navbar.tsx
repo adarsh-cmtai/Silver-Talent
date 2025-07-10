@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Mail, Phone, Briefcase, Home, Info, Newspaper, PhoneCall, LogIn, Twitter, Facebook, Instagram, Linkedin, Building2, Youtube } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { FaXTwitter } from 'react-icons/fa6';
 
 const navLinks = [
   { to: "/", label: "Home", icon: Home },
@@ -14,10 +15,10 @@ const navLinks = [
 ];
 
 const socialLinks = [
-  { href: "https://twitter.com", icon: Twitter },
+  { href: "https://linkedin.com", icon: Linkedin },
+  { href: "https://twitter.com", icon: FaXTwitter },
   { href: "https://facebook.com", icon: Facebook },
   { href: "https://instagram.com", icon: Instagram },
-  { href: "https://linkedin.com", icon: Linkedin },
   { href: "https://youtube.com", icon: Youtube },
 ];
 
@@ -47,8 +48,8 @@ const Navbar = () => {
   }, [isOpen]);
 
   const buttonStyles = {
-    primary: "bg-[#042c60] text-white hover:bg-sky-700 focus:ring-sky-500",
-    common: "text-xs font-semibold h-10 px-5 rounded-full transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 flex items-center gap-2"
+    primary: "bg-[#0078D4] text-black hover:bg-sky-700 focus:ring-sky-500",
+    common: "text-xs font-extrabold h-10 px-5 rounded-full transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 flex items-center gap-2"
   };
 
   return (
@@ -58,23 +59,23 @@ const Navbar = () => {
           initial={{ y: -60, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="bg-[#042c60] text-white"
+          className="bg-[#0078D4] text-white"
         >
           <div className="container mx-auto px-4 flex justify-between items-center py-2 text-xs sm:text-sm">
-            <div className="flex items-center gap-x-4">
-              <span className="font-semibold">Employer Enquiry :</span>
+            <div className="flex items-center gap-x-4 text-black font-extrabold">
+              <span className="font-extrabold">Employer Enquiry :</span>
               <a href="mailto:hr@silvertalent.in" className="flex items-center gap-1.5 hover:text-sky-400 transition-colors">
                 <Mail size={15} />
-                <span className="font-semibold">hr@silvertalent.in</span>
+                <span className="font-extrabold">hr@silvertalent.in</span>
               </a>
               <a href="tel:+919250051516" className="hidden sm:flex items-center gap-1.5 hover:text-sky-400 transition-colors">
                 <Phone size={15} />
-                <span className="font-semibold">+91-9250051516</span>
+                <span className="font-extrabold">+91-9250051516</span>
               </a>
             </div>
             <div className="hidden md:flex items-center gap-x-4">
-              <span className=" font-semibold">Follow Us:</span>
-              <div className="flex items-center gap-x-3">
+              <span className="text-black font-extrabold">Follow Us:</span>
+              <div className="flex items-center gap-x-2 text-black font-extrabold">
                 {socialLinks.map((social, index) => (
                   <a
                     key={index}
@@ -102,7 +103,7 @@ const Navbar = () => {
           <div className="container mx-auto px-4 flex items-center justify-between h-16">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link to="/">
-                <img src="/image/Silver.png" alt="Silver Talent Services Logo" className="h-40 w-auto" />
+                <img src="/image/logo.png" alt="Silver Talent Services Logo" className="h-10 w-30 ml-10" />
               </Link>
             </motion.div>
 
@@ -127,7 +128,7 @@ const Navbar = () => {
 
             <div className="hidden lg:flex items-center space-x-3">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button asChild className={`bg-[#042c60e1] ${buttonStyles.common}`}>
+                <Button asChild className={`bg-[#0078D4] ${buttonStyles.common} text-black font-extrabold`}>
                   <Link to="/vacancies">
                     JOB SEEKER
                   </Link>
@@ -192,6 +193,13 @@ const Navbar = () => {
                   <Button asChild className={`${buttonStyles.primary} ${buttonStyles.common} w-full justify-center`}>
                     <Link to="/vacancies" onClick={() => setIsOpen(false)}>
                       JOB SEEKER
+                    </Link>
+                  </Button>
+                </div>
+                <div className="p-5 mt-auto border-t space-y-3">
+                  <Button asChild className={`${buttonStyles.primary} ${buttonStyles.common} w-full justify-center`}>
+                    <Link to={{ pathname: "/contact" }} state={{ scrollToForm: true }} onClick={() => setIsOpen(false)}>
+                      Employer
                     </Link>
                   </Button>
                 </div>

@@ -41,10 +41,11 @@ const CertificationSection = () => {
           className="opacity-0 translate-y-5 transition-all duration-700 ease-out flex justify-center"
         >
           <img
-            src="/image/Home/ISO.png"
+            src="/image/Home/ISO1.png"
             alt="Company Accreditations and Recognitions"
-            className="max-w-4xl w-full h-auto rounded-lg"
+            className="w-full h-auto rounded-lg max-w-6xl"
           />
+
         </div>
       </div>
     </section>
