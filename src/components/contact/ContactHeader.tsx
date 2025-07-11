@@ -61,7 +61,7 @@ const ContactHeader = () => {
             </div>
             <div className="mt-10 animate-on-scroll">
               <Link to="/contact" state={{ scrollToForm: true }}>
-              <button className="bg-[#0078D4] hover:bg-sky-700 text-black font-bold py-3 px-8 rounded-full text-base shadow-lg hover:shadow-xl shadow-sky-200 transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-sky-300">
+              <button className="bg-[#0078D4] hover:bg-sky-700 text-[#fff] font-bold py-3 px-8 rounded-full text-base shadow-lg hover:shadow-xl shadow-sky-200 transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-sky-300">
                 Contact Us
               </button>
               </Link>
