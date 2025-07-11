@@ -11,7 +11,7 @@ import TestimonialSection from "@/components/home/TestimonialSection";
 
 const Index = () => {
   useEffect(() => {
-    document.title = "Silver Talent | Recruiting Expert";
+    document.title = "Silver Talent | Recruitment Expert";
     
     const handleScroll = () => {
       const animateElements = document.querySelectorAll('.animate-on-scroll');
