@@ -143,13 +143,13 @@ const TestimonialSection = () => {
         </div>
 
         <div className="mt-16 text-center">
-          <a
-            href="/contact"
+          <Link
+            to={{ pathname: "/contact" }} state={{ scrollToForm: true }}
             className="inline-block bg-[#0078D4] text-black text-2xl font-extrabold px-10 py-4 rounded-md shadow-lg transition-colors duration-300"
             style={{ clipPath: 'polygon(0% 0%, calc(100% - 18px) 0%, 100% 50%, calc(100% - 18px) 100%, 0% 100%)' }}
           >
             Get in touch and chat with us
-          </a>
+          </Link>
         </div>
       </div>
 
