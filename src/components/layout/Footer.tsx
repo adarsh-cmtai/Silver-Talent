@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Facebook, Linkedin, Twitter, Mail, Phone, MapPin, Instagram, Youtube, Clock, CalendarDays } from "lucide-react";
+import { Mail, Phone, MapPin, Instagram, Youtube, Clock, CalendarDays } from "lucide-react";
+import { FaLinkedinIn, FaFacebookF } from "react-icons/fa";
 import { FaXTwitter } from 'react-icons/fa6';
 
 const Footer = () => {
@@ -50,58 +51,58 @@ const Footer = () => {
             <div className="mb-4 leading-tight">
               <h3 className="text-2xl font-bold text-white inline-block relative">
                 Silver Talent
-                <span className="block text-sky-600 text-center w-full">Services</span>
+                <span className="block text-sky-600 text-right w-full">Services</span>
               </h3>
             </div>
 
             <p className="mb-6 text-gray-200 leading-relaxed">
-              Empowering businesses with exceptional recruitment solutions.
+              Empowering businesses with exceptional recruitment solutions designed to drive success.
             </p>
-            <div className="flex space-x-4">
+            <div className="flex items-center space-x-4">
               <motion.a
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 href="#"
-                className="text-gray-200 hover:text-sky-600 transition-colors bg-gray-800 p-2 rounded-full hover:bg-gray-700"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-200 text-[#042c60] transition-colors hover:bg-gray-300"
               >
                 <span className="sr-only">LinkedIn</span>
-                <Linkedin className="h-5 w-5" />
+                <FaLinkedinIn className="h-4 w-4" />
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 href="#"
-                className="text-gray-200 hover:text-sky-600 transition-colors bg-gray-800 p-2 rounded-full hover:bg-gray-700"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-200 text-[#042c60] transition-colors hover:bg-gray-300"
               >
                 <span className="sr-only">Twitter</span>
-                <FaXTwitter className="h-5 w-5" />
+                <FaXTwitter className="h-4 w-4" />
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 href="#"
-                className="text-gray-200 hover:text-sky-600 transition-colors bg-gray-800 p-2 rounded-full hover:bg-gray-700"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-200 text-[#042c60] transition-colors hover:bg-gray-300"
               >
                 <span className="sr-only">Facebook</span>
-                <Facebook className="h-5 w-5" />
+                <FaFacebookF className="h-4 w-4" />
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 href="#"
-                className="text-gray-200 hover:text-sky-600 transition-colors bg-gray-800 p-2 rounded-full hover:bg-gray-700"
+                 className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-200 text-[#042c60] transition-colors hover:bg-gray-300"
               >
                 <span className="sr-only">Instagram</span>
-                <Instagram className="h-5 w-5" />
+                <Instagram className="h-4 w-4" />
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 href="#"
-                className="text-gray-200 hover:text-sky-600 transition-colors bg-gray-800 p-2 rounded-full hover:bg-gray-700"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-200 text-[#042c60] transition-colors hover:bg-gray-300"
               >
                 <span className="sr-only">Youtube</span>
-                <Youtube className="h-5 w-5" />
+                <Youtube className="h-4 w-4" />
               </motion.a>
             </div>
           </motion.div>
@@ -112,7 +113,7 @@ const Footer = () => {
               Quick Links
             </h3>
             <ul className="space-y-3">
-              {['Home', 'About', 'Services', 'Blog','Vacancies', 'Contact'].map((link) => (
+              {['Home', 'About', 'Services', 'Blog', 'Vacancies', 'Contact'].map((link) => (
                 <motion.li
                   key={link}
                   whileHover={{ x: 5 }}
