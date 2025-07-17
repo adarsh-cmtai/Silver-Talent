@@ -49,11 +49,27 @@ const Footer = () => {
         >
           <motion.div variants={itemVariants} className="lg:col-span-1">
             <div className="mb-4 leading-tight">
-              <h3 className="text-2xl font-bold text-white inline-block relative">
+              <style
+                dangerouslySetInnerHTML={{
+                  __html: `
+        @font-face {
+          font-family: 'Bank Gothic';
+          src: url('/fonts/BankGothicLightBT-Bold.ttf') format('truetype');
+          font-weight: bold;
+          font-style: normal;
+        }
+      `,
+                }}
+              />
+              <h4
+                style={{ fontFamily: "Bank Gothic, sans-serif" }}
+                className="text-2xl font-bold text-white inline-block relative uppercase"
+              >
                 Silver Talent
-                <span className="block text-sky-600 text-right w-full">Services</span>
-              </h3>
+                <span className="block text-sky-600 text-right w-full uppercase">Services</span>
+              </h4>
             </div>
+
 
             <p className="mb-6 text-gray-200 leading-relaxed">
               Empowering businesses with exceptional recruitment solutions designed to drive success.
@@ -90,7 +106,7 @@ const Footer = () => {
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 href="#"
-                 className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-200 text-[#042c60] transition-colors hover:bg-gray-300"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-200 text-[#042c60] transition-colors hover:bg-gray-300"
               >
                 <span className="sr-only">Instagram</span>
                 <Instagram className="h-4 w-4" />
