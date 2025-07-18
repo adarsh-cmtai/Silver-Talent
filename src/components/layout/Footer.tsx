@@ -36,9 +36,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="text-white pt-16 pb-6"
-      style={{ backgroundColor: "#042c60" }}
-    >
+    <footer className="text-white pt-16 pb-6" style={{ backgroundColor: "#042c60" }}>
       <div className="container mx-auto px-4">
         <motion.div
           variants={containerVariants}
@@ -49,27 +47,30 @@ const Footer = () => {
         >
           <motion.div variants={itemVariants} className="lg:col-span-1">
             <div className="mb-4 leading-tight">
-              <style
-                dangerouslySetInnerHTML={{
-                  __html: `
-        @font-face {
-          font-family: 'Bank Gothic';
-          src: url('/fonts/BankGothicLightBT-Bold.ttf') format('truetype');
-          font-weight: bold;
-          font-style: normal;
-        }
-      `,
-                }}
-              />
-              <h4
-                style={{ fontFamily: "Bank Gothic, sans-serif" }}
-                className="text-2xl font-bold text-white inline-block relative uppercase"
-              >
+              <style>
+                {`
+                  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+                  .talent-title {
+                    font-family: 'Orbitron', sans-serif;
+                    font-size: 1rem; 
+                    font-weight: 700;
+                    color: #00A9FF; 
+                    text-transform: uppercase;
+                    line-height: 1.2;
+                    display: inline-block;
+                  }
+                  .talent-services {
+                    display: block;
+                    text-align: right;
+                    width: 100%;
+                  }
+                `}
+              </style>
+              <h4 className="talent-title">
                 Silver Talent
-                <span className="block text-sky-600 text-right w-full uppercase">Services</span>
+                <span className="talent-services">Services</span>
               </h4>
             </div>
-
 
             <p className="mb-6 text-gray-200 leading-relaxed">
               Empowering businesses with exceptional recruitment solutions designed to drive success.
@@ -183,7 +184,7 @@ const Footer = () => {
                 className="flex items-start gap-3 text-gray-200"
               >
                 <MapPin className="h-5 w-5 text-sky-600 mt-1 flex-shrink-0" />
-                <span>403 A, Ocean Plaza, P - 5, Sector 18, Noida - 201301</span>
+                <span>403 A, Ocean Plaza, P - 5, Sector 18, Noida - 201301</span>
               </motion.li>
               <motion.li
                 whileHover={{ x: 5 }}
