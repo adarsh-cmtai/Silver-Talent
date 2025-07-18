@@ -146,7 +146,7 @@ const TestimonialSection = () => {
           <Link
             to={{ pathname: "/contact" }}
             state={{ scrollToForm: true }}
-            className="inline-block bg-[#0078D4] text-black text-2xl font-extrabold px-10 py-4 rounded-full shadow-lg transition-colors duration-300 hover:bg-[#005fa3]"
+            className="inline-block bg-[#0078D4] text-white text-2xl font-extrabold px-10 py-4 rounded-full shadow-lg transition-colors duration-300 hover:bg-[#005fa3]"
             style={{ minWidth: "300px", paddingLeft: "3rem", paddingRight: "3rem" }}
           >
             Get in touch and chat with us
