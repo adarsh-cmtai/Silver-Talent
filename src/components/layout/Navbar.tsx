@@ -103,7 +103,7 @@ const Navbar = () => {
           <div className="container mx-auto px-4 flex items-center justify-between h-16">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link to="/">
-                <img src="/image/Silver1.png" alt="Silver Talent Services Logo" className="h-40 w-50 ml-5" />
+                <img src="/image/Silver1.png" alt="Silver Talent Services Logo" className="h-40 w-50 ml-8" />
               </Link>
             </motion.div>
 
