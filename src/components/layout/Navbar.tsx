@@ -97,7 +97,7 @@ const Navbar = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className={`transition-all duration-300 ${
-            isScrolled ? "bg-white/90 backdrop-blur-lg shadow-md py-2" : "bg-white/95 backdrop-blur-md py-3"
+            isScrolled ? "bg-white/90 backdrop-blur-lg shadow-md py-3" : "bg-white/95 backdrop-blur-md py-3"
           }`}
         >
           <div className="container mx-auto px-4 flex items-center justify-between h-16">
