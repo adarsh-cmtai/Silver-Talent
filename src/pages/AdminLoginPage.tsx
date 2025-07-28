@@ -6,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { Loader2, Mail, Lock, Building } from "lucide-react";
 import { motion } from "framer-motion";
 
+const new_email = import.meta.env.VITE_API_EMAIL;
+const new_password= import.meta.env.VITE_API_PASSWORD; 
+
 const AdminLoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +24,7 @@ const AdminLoginPage = () => {
     // Simulate an API call delay for a more realistic feel
     await new Promise(resolve => setTimeout(resolve, 1500));
 
-    if (email === "admin@example.com" && password === "password123") {
+    if (email === new_email && password === new_password) {
       navigate("/admin/dashboard");
     } else {
       setError("Invalid credentials. Please try again.");
