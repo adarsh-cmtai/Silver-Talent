@@ -48,7 +48,7 @@ const Navbar = () => {
   }, [isOpen]);
 
   const buttonStyles = {
-    primary: "bg-[#0078D4] text-black hover:bg-sky-700 focus:ring-sky-500",
+    primary: "bg-[#0078D4] text-white hover:bg-sky-700 focus:ring-sky-500",
     common: "text-xs font-extrabold h-10 px-5 rounded-full transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 flex items-center gap-2"
   };
 
@@ -61,21 +61,21 @@ const Navbar = () => {
           transition={{ duration: 0.5 }}
           className="bg-[#0078D4] text-white"
         >
-          <div className="container mx-auto px-4 flex justify-between items-center py-2 text-xs sm:text-sm">
-            <div className="flex items-center gap-x-4 text-black font-extrabold">
-              <span className="font-extrabold">Employer Enquiry :</span>
+          <div className="container mx-auto px-4 flex justify-between items-center py-2 text-sm sm:text-sm">
+            <div className="flex items-center gap-x-4 text-[#fff] font-semibold">
+              <span className="font-semibold text-sm">Employer Enquiry :</span>
               <a href="mailto:hr@silvertalent.in" className="flex items-center gap-1.5 hover:text-sky-400 transition-colors">
                 <Mail size={15} />
-                <span className="font-extrabold">hr@silvertalent.in</span>
+                <span className="font-semibold text-sm">hr@silvertalent.in</span>
               </a>
               <a href="tel:+919250051516" className="hidden sm:flex items-center gap-1.5 hover:text-sky-400 transition-colors">
                 <Phone size={15} />
-                <span className="font-extrabold">+91-9250051516</span>
+                <span className="font-semibold text-sm">+91-9250051516</span>
               </a>
             </div>
             <div className="hidden md:flex items-center gap-x-4">
-              <span className="text-black font-extrabold">Follow Us:</span>
-              <div className="flex items-center gap-x-2 text-black font-extrabold">
+              <span className="text-[#fff] font-semibold text-sm">Follow Us:</span>
+              <div className="flex items-center gap-x-2 text-[#fff] font-semibold">
                 {socialLinks.map((social, index) => (
                   <a
                     key={index}
@@ -97,13 +97,13 @@ const Navbar = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className={`transition-all duration-300 ${
-            isScrolled ? "bg-white/90 backdrop-blur-lg shadow-md py-2" : "bg-white/95 backdrop-blur-md py-3"
+            isScrolled ? "bg-white/90 backdrop-blur-lg shadow-md py-2 pt-5" : "bg-white/95 backdrop-blur-md py-3 pt-5"
           }`}
         >
           <div className="container mx-auto px-4 flex items-center justify-between h-16">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link to="/">
-                <img src="/image/logo.png" alt="Silver Talent Services Logo" className="h-10 w-30 ml-10" />
+                <img src="/image/Silver1.png" alt="Silver Talent Services Logo" className="h-40 w-50 ml-5" />
               </Link>
             </motion.div>
 
@@ -112,7 +112,7 @@ const Navbar = () => {
                 <motion.div key={link.to} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                   <Link
                     to={link.to}
-                    className={`text-sm uppercase font-bold tracking-wider pb-1.5 pt-1 relative group flex items-center gap-1.5 transform transition-colors duration-300 ${
+                    className={`text-base uppercase font-bold tracking-wider pb-1.5 pt-1 relative group flex items-center gap-1.5 transform transition-colors duration-300 ${
                       location.pathname === link.to ? "text-sky-600" : "text-slate-700 hover:text-sky-600"
                     }`}
                   >
@@ -128,7 +128,7 @@ const Navbar = () => {
 
             <div className="hidden lg:flex items-center space-x-3">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button asChild className={`bg-[#0078D4] ${buttonStyles.common} text-black font-extrabold`}>
+                <Button asChild className={`bg-[#0078D4] ${buttonStyles.common} text-[#fff] font-extrabold`}>
                   <Link to="/vacancies">
                     JOB SEEKER
                   </Link>
@@ -138,7 +138,7 @@ const Navbar = () => {
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button asChild className={`${buttonStyles.primary} ${buttonStyles.common}`}>
                   <Link to="/contact" state={{ scrollToForm: true }}>
-                    Employer
+                    EMPLOYER
                   </Link>
                 </Button>
               </motion.div>
@@ -178,14 +178,14 @@ const Navbar = () => {
                     <Link
                       key={link.to}
                       to={link.to}
-                      className={`py-3 px-4 rounded-lg text-base font-medium transition-all duration-200 flex items-center gap-3 ${
+                      className={`py-3 px-4 rounded-lg text-xl font-medium transition-all duration-200 flex items-center gap-3 ${
                         location.pathname === link.to
                           ? "bg-sky-100 text-sky-700"
                           : "text-slate-700 hover:bg-gray-100"
                       }`}
                       onClick={() => setIsOpen(false)}
                     >
-                      <link.icon size={20} /> {link.label}
+                      <link.icon size={28} /> {link.label}
                     </Link>
                   ))}
                 </div>

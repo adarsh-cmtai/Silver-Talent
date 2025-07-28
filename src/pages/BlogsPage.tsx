@@ -341,7 +341,7 @@ const BlogsPage = () => {
                 <div className="flex items-center gap-1.5"><User className="w-4 h-4" />{selectedBlog.author}</div>
                 <div className="flex items-center gap-1.5"><Calendar className="w-4 h-4" />{formatDate(selectedBlog.publishDate)}</div>
                 <div className="flex items-center gap-1.5"><Clock className="w-4 h-4" />{selectedBlog.readTime}</div>
-                {selectedBlog.views !== undefined && <div className="flex items-center gap-1.5"><UsersRound className="w-4 h-4" />{selectedBlog.views} views</div>}
+{/*                 {selectedBlog.views !== undefined && <div className="flex items-center gap-1.5"><UsersRound className="w-4 h-4" />{selectedBlog.views} views</div>} */}
               </div>
 
               <article className="prose prose-slate lg:prose-lg max-w-none text-gray-700 leading-relaxed">
