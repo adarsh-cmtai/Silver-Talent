@@ -1,5 +1,4 @@
 User-agent: Googlebot
-Disallow: /sitemap.xml
 Allow: /
 
 User-agent: Bingbot
