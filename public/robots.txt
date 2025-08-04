@@ -1,4 +1,5 @@
 User-agent: Googlebot
+Disallow: /sitemap.xml
 Allow: /
 
 User-agent: Bingbot
@@ -11,6 +12,7 @@ User-agent: facebookexternalhit
 Allow: /
 
 User-agent: *
+Disallow: /sitemap.xml
 Allow: /
 
 Sitemap: https://www.silvertalent.in/sitemap.xml
