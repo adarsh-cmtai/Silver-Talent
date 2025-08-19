@@ -15,4 +15,5 @@ User-agent: *
 Disallow: /sitemap.xml
 Allow: /
 
+# Sitemap is declared for crawling but won't be indexed
 Sitemap: https://www.silvertalent.in/sitemap.xml
